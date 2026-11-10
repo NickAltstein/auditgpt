@@ -1,0 +1,33 @@
+[build]
+  command = "next build"
+
+# Scope redirects — marketing surfaces only. /api/*, /audit/*, /verify* serve here.
+[[redirects]]
+  from = "/"
+  to = "https://scrutexity.com/"
+  status = 307
+
+[[redirects]]
+  from = "/snapshot"
+  to = "https://scrutexity.com/scanner"
+  status = 307
+
+[[redirects]]
+  from = "/auditgpt"
+  to = "https://scrutexity.com/scanner"
+  status = 307
+
+[[redirects]]
+  from = "/pricing"
+  to = "https://scrutexity.com/pricing"
+  status = 307
+
+[[redirects]]
+  from = "/sample-report"
+  to = "https://scrutexity.com/sample-report"
+  status = 307
+
+[[redirects]]
+  from = "/agency"
+  to = "https://scrutexity.com/partners"
+  status = 307

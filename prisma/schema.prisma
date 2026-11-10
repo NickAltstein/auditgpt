@@ -1,0 +1,470 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  subscriptions Subscription[]
+  audits        Audit[]
+  agentConfigs  AgentConfig[]
+  agentRuns     AgentRun[]
+  integrations  Integration[]
+  deployFixPRs  DeployFixPR[]
+  monitorSubscriptions MonitorSubscription[]
+  agency        Agency?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Subscription {
+  id                    String   @id @default(cuid())
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId      String   @unique
+  stripePriceId         String
+  stripeSubscriptionId  String   @unique
+  status                String // "active", "canceled", "past_due", "trialing"
+  plan                  String // "pro" | "agent"
+  currentPeriodEnd      DateTime
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model MonitoredSite {
+  id        String   @id @default(cuid())
+  url       String   @unique
+  audits    Audit[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditClaim {
+  id           String   @id @default(cuid())
+  auditId      String
+  audit        Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  claimHash    String
+  claimText    String
+  claimType    String
+  status       String
+  severity     String
+  sourceKind   String
+  sourceUrl    String?
+  sourceText   String?
+  section      String
+  position     Int
+  ruleVersion  String
+  crawledAt    DateTime
+  expiresAt    DateTime?
+  supersededAt DateTime?
+  createdAt    DateTime @default(now())
+
+  @@unique([auditId, section, position])
+  @@index([auditId, status])
+  @@index([claimHash])
+  @@index([expiresAt])
+}
+
+model RescanLock {
+  auditId   String   @id
+  audit     Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model ExpiryNotification {
+  id           String    @id @default(cuid())
+  auditId      String
+  // "claim_expiry" — legacy per-claim expiry notice (existing reaper)
+  // "stale_warning" — day-30 heads-up before the review is marked stale
+  // "stale_expired" — day-45 notice that the review is now marked stale
+  stage        String    @default("claim_expiry")
+  audit        Audit     @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  attemptedAt  DateTime  @default(now())
+  sentAt       DateTime?
+  error        String?
+
+  @@unique([auditId, stage])
+  @@index([sentAt])
+}
+
+model ExpiryRescanJob {
+  id        String   @id @default(cuid())
+  auditId   String   @unique
+  audit     Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  userId    String
+  reason    String   @default("claim_expiry")
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([userId])
+}
+
+model AuditUsageBucket {
+  id                String   @id @default(cuid())
+  key               String
+  kind              String
+  count             Int      @default(0)
+  estimatedCostCents Int     @default(0)
+  windowStart       DateTime
+  windowEnd         DateTime
+  updatedAt         DateTime @updatedAt
+
+  @@index([kind, windowEnd])
+}
+
+model DeployFixPR {
+  id          String   @id @default(cuid())
+  auditId     String   @unique
+  audit       Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prNumber    Int
+  prUrl       String
+  branchName  String
+  status      String   @default("open")
+  deployedAt  DateTime @default(now())
+}
+
+model Audit {
+  id                String               @id @default(cuid())
+  path              String // "new" | "grow"
+  inputType         String               @default("website") // "website" | "agent_transcript"
+  transcript        String?
+  companyName       String?
+  websiteUrl        String?
+  industry          String?
+  focusNotes        String?
+  auditJson         String // full JSON output from the LLM
+  publicId          String               @unique // 10-char slug for sharing
+  score             Int?
+  verdict           String?
+  staleClaims       Boolean              @default(false)
+  staleAt           DateTime?
+  previousAuditId   String?              @unique
+  previousAudit     Audit?               @relation("AuditLineage", fields: [previousAuditId], references: [id], onDelete: SetNull)
+  nextAudit         Audit?               @relation("AuditLineage")
+  userId            String?
+  user              User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  monitoredSiteId   String?
+  monitoredSite     MonitoredSite?       @relation(fields: [monitoredSiteId], references: [id], onDelete: SetNull)
+  agencyId          String?
+  agency            Agency?              @relation(fields: [agencyId], references: [id], onDelete: SetNull)
+  clientId          String?
+  client            AgencyClient?        @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  verified          Boolean              @default(false)
+  verifiedAt        DateTime?
+  agentConfigs      AgentConfig[]
+  claims            AuditClaim[]
+  rescanLock        RescanLock?
+  expiryNotifications ExpiryNotification[]
+  expiryRescanJob   ExpiryRescanJob?
+  deployFixPR       DeployFixPR?
+  createdAt         DateTime             @default(now())
+  paidAt            DateTime?            // When payment was confirmed via Stripe webhook
+  stripeSessionId   String?              // Stripe Checkout Session ID for entitlement lookup
+  auditType         String               @default("snapshot") // "snapshot" | "full" | "starter"
+
+  @@index([publicId])
+  @@index([userId])
+  @@index([verified])
+  @@index([monitoredSiteId])
+}
+
+model AgentConfig {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // "ad_copy", "seo_blog", "support", "outreach", "competitor_watch"
+  config    String // JSON string: { channels, product_focus, schedule, etc. }
+  active    Boolean    @default(true)
+  auditId   String
+  audit     Audit      @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  runs      AgentRun[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([userId])
+}
+
+model AgentRun {
+  id            String      @id @default(cuid())
+  agentConfigId String
+  agentConfig   AgentConfig @relation(fields: [agentConfigId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  output        String // JSON string: the agent's generated output
+  triggered     String // "manual" | "scheduled"
+  createdAt     DateTime    @default(now())
+
+  @@index([agentConfigId])
+  @@index([userId])
+}
+
+model Integration {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider  String // "stripe", "google_analytics", etc.
+  status    String // "connected", "disconnected", "error"
+  accessToken  String?
+  refreshToken String?
+  externalId   String? // Stripe customer ID, GA property ID, etc.
+  metadata     String? // JSON string of provider-specific data
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, provider])
+  @@index([userId])
+}
+
+model OAuthState {
+  token     String   @id
+  userId    String
+  provider  String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
+
+model Consequence {
+  id               String   @id @default(cuid())
+  claimText        String
+  industry         String?
+  sourceSnippet    String?
+  supportGap       String?
+  saferFraming     String
+  evidenceNeeded   String?
+  auditId          String?
+  createdAt        DateTime @default(now())
+
+  @@index([industry])
+}
+
+model MonitorSubscription {
+  id                  String   @id @default(cuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  url                 String
+  frequency           String   @default("monthly")
+  lastRun             DateTime?
+  status              String   @default("active")
+  notificationsEnabled Boolean  @default(true)
+  lastNotified        DateTime?
+  deltas              MonitorDeltaReport[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([userId, url])
+}
+
+model MonitorDeltaReport {
+  id              String   @id @default(cuid())
+  subscriptionId  String
+  subscription    MonitorSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  previousAuditId String
+  currentAuditId  String
+  riskScoreDelta  Int
+  newClaimsCount  Int
+  changedClaimsCount Int
+  deltaJson       String   // Stores detailed diff
+  createdAt       DateTime @default(now())
+}
+
+model Agency {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName      String
+  logoUrl          String?
+  primaryColor     String?
+  poweredByEnabled Boolean  @default(true)
+  billingTier      String   @default("agency")
+  monthlyFee       Int?
+  clients          AgencyClient[]
+  audits           Audit[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AgencyClient {
+  id        String   @id @default(cuid())
+  agencyId  String
+  agency    Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  name      String
+  url       String
+  audits    Audit[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([agencyId, url])
+}
+
+model DistortionLog {
+  id            String   @id @default(cuid())
+  domain        String
+  query         String
+  answerPayload String   // JSON: what the AI answer engine returned
+  sourcePayload String?  // JSON: the source page content checked
+  status        String   // "observed" | "distortion_detected" | "clean"
+  digest        String   // SHA-256 digest of the record
+  checkedAt     DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  @@index([domain, checkedAt])
+  @@index([status])
+  @@unique([digest])
+}
+
+model PromptDefinition {
+  id         String
+  version    Int
+  promptHash String
+  promptText String
+  createdAt  DateTime  @default(now())
+  retiredAt  DateTime?
+  observations Observation[]
+
+  @@id([id, version])
+  @@unique([promptHash])
+}
+
+model Observation {
+  id                 String   @id @default(cuid())
+  domain             String
+  sourceUrl          String   // the URL we requested (pre-redirect)
+  resolvedUrl        String?  // the URL that actually served the bytes (post-redirect); null on capture failure
+  pageSnapshotHash   String
+  rawSnapshotLocation String?
+  snapshotByteLength Int?
+  snapshotStorageStatus String?
+  captureMethod      String?
+  httpStatus         Int?
+  contentType        String?
+  capturedAt         DateTime @default(now())
+  observedAt         DateTime @default(now())
+  aiSurface          String?
+  modelProvider      String?
+  modelVersionId     String?
+  modelVersionSource String?
+  promptId           String?
+  promptVersion      Int?
+  promptText         String?
+  promptHash         String?
+  answerPayload      String?
+  answerDigest       String?
+  promptDefinition   PromptDefinition? @relation(fields: [promptId, promptVersion], references: [id, version], onDelete: SetNull)
+  claimStates        ClaimState[]
+  lifecycleEvents    ClaimLifecycleEvent[]
+
+  @@index([domain, observedAt])
+  @@index([pageSnapshotHash])
+  @@index([answerDigest])
+  @@index([promptId, promptVersion])
+}
+
+model ClaimState {
+  id                  String   @id @default(cuid())
+  observationId       String
+  observation         Observation @relation(fields: [observationId], references: [id], onDelete: Cascade)
+  claimHash           String
+  stateHash           String
+  claimText           String
+  normalizedClaimText String
+  supportState        String?
+  discrepancyType     String?
+  severity            String?
+  sourceLocator       String?
+  createdAt           DateTime @default(now())
+
+  @@unique([observationId, sourceLocator])
+  @@index([claimHash])
+  @@index([stateHash])
+  @@index([sourceLocator])
+}
+
+model ClaimLifecycleEvent {
+  id                       String   @id @default(cuid())
+  claimHash                String
+  domain                   String
+  eventType                String
+  observationId            String
+  observation              Observation @relation(fields: [observationId], references: [id], onDelete: Cascade)
+  priorObservationId       String?
+  pageSnapshotHash         String
+  priorStateHash           String?
+  aiSurface                String?
+  modelVersionId           String?
+  promptId                 String?
+  observedAt               DateTime
+  priorObservedAt          DateTime?
+  chainPosition            Int
+  latencyFromPriorEventMs  BigInt?
+  eventDigest              String
+  createdAt                DateTime @default(now())
+
+  @@unique([eventDigest])
+  @@index([domain, observedAt])
+  @@index([claimHash, chainPosition])
+  @@index([eventType])
+}
+
+model CaseFileLookupLog {
+  id          String   @id @default(cuid())
+  domain      String
+  endpoint    String   // "coverage" or "bundle"
+  status      Int
+  lookupAt    DateTime @default(now())
+
+  @@index([domain, lookupAt])
+}

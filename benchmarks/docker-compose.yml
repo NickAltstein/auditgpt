@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  # Mock Staging Agent Service with Chaos Injection
+  mock-agent:
+    image: node:20-alpine
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - AGENT_API_KEY=test-ci-key-9921
+    volumes:
+      - ./server:/app
+    command: node server.js
+
+  # AuditGPT ASTI v1.1 Runner
+  auditgpt-runner:
+    image: node:20-alpine
+    working_dir: /app
+    depends_on:
+      - mock-agent
+    volumes:
+      - ../:/app
+    environment:
+      - AGENT_API_KEY=test-ci-key-9921
+    command: npx tsx bin/auditgpt.ts test --endpoint http://mock-agent:8000/agent/v1/chat --ci --export-pr-comment benchmark_summary.md

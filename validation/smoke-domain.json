@@ -1,0 +1,11 @@
+{
+  "batch_name": "smoke-test",
+  "environment": "staging",
+  "domains": [
+    {
+      "domain": "henrymeds.com",
+      "bucket": "glp1",
+      "vertical": "glp1_clinic"
+    }
+  ]
+}

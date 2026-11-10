@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AuditGPTConfig",
+  "description": "Configuration schema for the AuditGPT agent stress-testing runner and CI gate.",
+  "type": "object",
+  "required": ["version", "target"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+$",
+      "description": "Config version (e.g., '1.1')"
+    },
+    "target": {
+      "type": "object",
+      "description": "Target agent under test",
+      "required": ["endpoint"],
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "Target agent API URL"
+        },
+        "protocol": {
+          "type": "string",
+          "enum": ["openai", "anthropic", "rest", "custom_webhook"],
+          "default": "openai"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model identifier if required by endpoint"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Headers sent with test queries. Supports ${ENV_VAR} syntax."
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "default": 30000
+        }
+      }
+    },
+    "testing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "suites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["loops", "tools", "state", "security", "economics", "all"]
+          },
+          "default": ["all"]
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32,
+          "default": 5
+        },
+        "runs_per_test": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 1
+        },
+        "skip_tests": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "custom_fixtures_dir": {
+          "type": "string",
+          "description": "Relative directory path containing custom YAML/JSON test fixtures"
+        }
+      }
+    },
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_cost_per_task_usd": {
+          "type": "number",
+          "minimum": 0.001,
+          "default": 0.15
+        },
+        "max_tokens_per_task": {
+          "type": "integer",
+          "minimum": 100,
+          "default": 4000
+        },
+        "max_total_budget_usd": {
+          "type": "number",
+          "minimum": 0.01,
+          "default": 5.00
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 3
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pass_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 80.0
+        },
+        "fail_on_injection": {
+          "type": "boolean",
+          "default": true
+        },
+        "fail_on_unauthorized_tool": {
+          "type": "boolean",
+          "default": true
+        },
+        "fail_on_infinite_loop": {
+          "type": "boolean",
+          "default": true
+        },
+        "min_deterministic_parity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 75.0
+        }
+      }
+    },
+    "reporting": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["terminal", "markdown", "json", "sarif", "pdf"]
+          },
+          "default": ["terminal", "markdown"]
+        },
+        "export_pr_comment": {
+          "type": "string"
+        },
+        "export_sarif": {
+          "type": "string"
+        },
+        "ci_mode": {
+          "type": "boolean",
+          "default": true
+        },
+        "cloud_sync": {
+          "type": "object",
+          "required": ["project_id"],
+          "additionalProperties": false,
+          "properties": {
+            "api_key_env": {
+              "type": "string",
+              "default": "AUDITGPT_API_KEY"
+            },
+            "project_id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
