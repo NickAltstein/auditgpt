@@ -39,9 +39,9 @@ export function Hero() {
   };
 
   const copyQuickInstall = () => {
-    navigator.clipboard.writeText('npx auditgpt test --endpoint http://localhost:8000/agent/v1');
+    navigator.clipboard.writeText('npx auditgpt test');
     setCopied(true);
-    toast.success('Copied: npx auditgpt test --endpoint http://localhost:8000/agent/v1');
+    toast.success('Copied: npx auditgpt test');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -79,12 +79,13 @@ export function Hero() {
               initial={reduce ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#111827] leading-[1.1]"
+              className="text-5xl font-extrabold tracking-tight text-[#111827] sm:text-6xl leading-[1.08]"
             >
               Adversarial pre-deployment gating for{' '}
-              <span className="text-[#111827] underline decoration-[#c8f135] decoration-4 underline-offset-6">
-                autonomous agents.
-              </span>
+              <span className="underline decoration-[#b5f22b] decoration-2 underline-offset-8">
+                autonomous
+              </span>{' '}
+              agents.
             </motion.h1>
 
             {/* Subheading */}
@@ -97,37 +98,41 @@ export function Hero() {
               Catch recursive retry loops, destructive tool calls, prompt injections, and runaway token costs before merging to production.
             </motion.p>
 
-            {/* Primary CTA Row */}
+            {/* Uniform Single-Line Hero CTAs */}
             <motion.div
               initial={reduce ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex flex-wrap items-center gap-3 pt-2"
+              className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <div
-                onClick={copyQuickInstall}
-                className="flex items-center rounded-lg border border-slate-300 bg-[#111827] px-4 py-2.5 font-mono text-xs text-slate-100 shadow-xs cursor-pointer hover:bg-slate-800 transition-colors"
-                title="Click to copy command"
+              <a
+                href="#battery"
+                className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#b5f22b] px-6 text-sm font-semibold text-[#111827] shadow-xs transition-colors hover:bg-[#a6e222]"
               >
-                <span className="mr-2 text-sky-400">$</span>
-                <span>npx auditgpt test</span>
-                {copied ? <Check className="ml-2 h-3.5 w-3.5 text-[#16a34a]" /> : <Copy className="ml-2 h-3.5 w-3.5 text-slate-400" />}
-              </div>
+                <span>Explore 50-Test Battery</span>
+                <span aria-hidden="true">→</span>
+              </a>
 
               <a
                 href="https://sandbox.auditgpt.ai/?scenario=prod-drop-table&step=1"
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 font-mono text-xs font-semibold text-[#111827] shadow-xs transition-colors hover:bg-slate-50"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#111827] px-6 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-slate-800"
               >
-                Try Live Attack Simulator (WebCrypto) →
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span>Try Live Sandbox</span>
+                <span aria-hidden="true">→</span>
               </a>
 
-              <a
-                href="#battery"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#c8f135] px-4 py-2.5 text-xs font-bold text-[#111827] shadow-xs transition-all hover:bg-[#bce628]"
+              <button
+                type="button"
+                onClick={copyQuickInstall}
+                className="inline-flex h-12 items-center gap-2.5 whitespace-nowrap rounded-full border border-slate-200 bg-white px-5 font-mono text-xs font-medium text-[#111827] shadow-2xs transition-colors hover:bg-slate-50 cursor-pointer"
               >
-                <span>50-Test Battery</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </a>
+                <span className="text-slate-400">&gt;_</span>
+                <span>npx auditgpt test</span>
+                {copied ? <Check className="h-3.5 w-3.5 text-[#16a34a]" /> : <span className="text-slate-400">⧉</span>}
+              </button>
             </motion.div>
 
             {/* Micro Trust Points */}
@@ -184,26 +189,26 @@ export function Hero() {
                 <div className="mt-4 space-y-2 font-mono text-xs text-white/90">
                   <div className="text-white/50">$ npx auditgpt test --endpoint http://localhost:8000/agent</div>
                   <div className="text-[#c8f135] font-semibold">⚡ ASTI v1.1 Battery [50 Tests] Running...</div>
-                  <div className="space-y-1 pt-1 text-[11px]">
-                    <div className="flex justify-between text-white/80">
+                  <div className="mt-4 space-y-1.5 font-mono text-xs">
+                    <div className="flex items-center justify-between text-slate-300">
                       <span>• Loops &amp; Error Cascades</span>
-                      <span className="text-[#10b981]">10/10 PASS</span>
+                      <span className="text-emerald-400">10/10 PASS</span>
                     </div>
-                    <div className="flex justify-between text-white/80">
-                      <span>• Destructive Tool Protection</span>
-                      <span className="text-[#10b981]">10/10 PASS</span>
+                    <div className="flex items-center justify-between rounded bg-rose-500/10 px-1.5 py-0.5 text-rose-200">
+                      <span>• Destructive Tool Protection (DROP TABLE)</span>
+                      <span className="font-semibold text-rose-400">HALTED [0.02ms]</span>
                     </div>
-                    <div className="flex justify-between text-white/80">
+                    <div className="flex items-center justify-between text-slate-300">
                       <span>• Context &amp; State Degradation</span>
-                      <span className="text-[#10b981]">10/10 PASS</span>
+                      <span className="text-emerald-400">10/10 PASS</span>
                     </div>
-                    <div className="flex justify-between text-white/80">
+                    <div className="flex items-center justify-between text-slate-300">
                       <span>• Adversarial Injection Rebuff</span>
-                      <span className="text-[#10b981]">10/10 PASS</span>
+                      <span className="text-emerald-400">10/10 PASS</span>
                     </div>
-                    <div className="flex justify-between text-white/80">
+                    <div className="flex items-center justify-between text-slate-300">
                       <span>• Token &amp; Cost Ceilings</span>
-                      <span className="text-[#10b981]">10/10 PASS</span>
+                      <span className="text-emerald-400">10/10 PASS</span>
                     </div>
                   </div>
                   <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs font-bold">
