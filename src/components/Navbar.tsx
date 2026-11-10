@@ -66,6 +66,9 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
           <a href="#pricing" className="whitespace-nowrap transition-colors hover:text-[#111827]">
             Pricing
           </a>
+          <a href="/legal" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+            Terms
+          </a>
         </div>
 
         {/* Single Primary Action */}

@@ -451,6 +451,7 @@ export default function Home() {
               <a href="#ci-gate" className="hover:text-[#111827]">CI/CD Gate</a>
               <a href="#runtime" className="hover:text-[#111827]">Observability</a>
               <a href="#pricing" className="hover:text-[#111827]">Pricing</a>
+              <a href="/legal" className="hover:text-[#111827]">Terms</a>
               <a href="mailto:contact@auditgpt.ai" className="hover:text-[#111827]">Contact</a>
             </div>
           </div>
