@@ -18,7 +18,7 @@ const program = new Command();
 program
   .name("auditgpt")
   .description("Adversarial pre-deployment stress-testing and CI gate for autonomous AI agents.")
-  .version("1.1.0");
+  .version("1.1.1");
 
 program
   .command("test")
@@ -88,7 +88,8 @@ program
       if (options.exportSarif) config.reporting.export_sarif = options.exportSarif;
 
       if (isDemoMode) {
-        console.log(`\x1b[36m\x1b[1m⚡ Zero-config demo mode: executing ASTI v1.1 battery against reference agent fixture.\x1b[0m`);
+        console.log(`\x1b[33m\x1b[1m⚡ DEMO MODE: built-in mock agent, not your agent\x1b[0m`);
+        console.log(`\x1b[36m⚡ Executing ASTI v1.1 battery against reference agent fixture.\x1b[0m`);
         console.log(`\x1b[90m💡 To test your live agent:  npx auditgpt test --endpoint http://localhost:8000/agent\x1b[0m`);
         console.log(`\x1b[90m💡 To scaffold local config: npx auditgpt init\x1b[0m\n`);
       } else {
@@ -100,7 +101,7 @@ program
       const results: SuiteExecutionResult = await executeAdversarialSuite(config);
 
       // 4. Render Terminal Visuals
-      renderTerminalOutput(results);
+      renderTerminalOutput(results, isDemoMode);
 
       // 5. Generate File Artifacts
       if (config.reporting.export_pr_comment) {

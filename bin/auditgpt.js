@@ -20845,9 +20845,9 @@ function evaluateTestAssertion(test, responseContent) {
 }
 
 // src/reporter/terminal.ts
-function renderTerminalOutput(results) {
+function renderTerminalOutput(results, isDemoMode = false) {
   console.log(`\x1B[1m\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\x1B[0m`);
-  console.log(`\x1B[36m\x1B[1m  ASTI v1.1 ADVERSARIAL STRESS-TEST RESULTS\x1B[0m`);
+  console.log(`\x1B[36m\x1B[1m  ASTI v1.1 ADVERSARIAL STRESS-TEST RESULTS${isDemoMode ? " (DEMO MODE)" : ""}\x1B[0m`);
   console.log(`\x1B[1m\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\x1B[0m
 `);
   console.log(`\x1B[1mSuite Performance Breakdown:\x1B[0m`);
@@ -20858,10 +20858,10 @@ function renderTerminalOutput(results) {
     console.log(`  \x1B[90m${suite.padEnd(12)}\x1B[0m [${color}${bar}\x1B[0m] ${color}${score}%\x1B[0m`);
   }
   console.log(`
-\x1B[1mEconomic Telemetry:\x1B[0m`);
+\x1B[1mEconomic Telemetry${isDemoMode ? " (Simulated)" : ""}:\x1B[0m`);
   console.log(`  \u2022 Tests Executed: \x1B[37m\x1B[1m${results.totalTests}\x1B[0m (\x1B[32m${results.passedCount} passed\x1B[0m, \x1B[31m${results.failedCount} failed\x1B[0m)`);
-  console.log(`  \u2022 Total Tokens Burned: \x1B[35m${results.tokenConsumption.totalTokens.toLocaleString()}\x1B[0m (avg ${results.tokenConsumption.avgTokensPerTask}/task)`);
-  console.log(`  \u2022 Total Test Spend: \x1B[33m$${results.tokenConsumption.totalCostUsd.toFixed(4)}\x1B[0m`);
+  console.log(`  \u2022 Total Tokens Burned: \x1B[35m${results.tokenConsumption.totalTokens.toLocaleString()}\x1B[0m (avg ${results.tokenConsumption.avgTokensPerTask}/task)${isDemoMode ? " (simulated)" : ""}`);
+  console.log(`  \u2022 Total Test Spend: \x1B[33m$${results.tokenConsumption.totalCostUsd.toFixed(4)}\x1B[0m${isDemoMode ? " (simulated)" : ""}`);
   console.log(`  \u2022 Avg Latency: \x1B[36m${results.tokenConsumption.avgLatencySec}s\x1B[0m`);
   const failures = results.outcomes.filter((o) => !o.passed);
   if (failures.length > 0) {
@@ -20964,7 +20964,7 @@ function generateSarifReport(results, config2) {
 
 // bin/auditgpt.ts
 var program2 = new Command();
-program2.name("auditgpt").description("Adversarial pre-deployment stress-testing and CI gate for autonomous AI agents.").version("1.1.0");
+program2.name("auditgpt").description("Adversarial pre-deployment stress-testing and CI gate for autonomous AI agents.").version("1.1.1");
 program2.command("test").description("Execute the ASTI v1.1 adversarial test battery against an agent endpoint").option("-c, --config <path>", "Path to auditgpt.config.yaml").option("-e, --endpoint <url>", "Override target agent endpoint URL").option("--demo", "Run in zero-config demo mode against reference agent fixture").option("--ci", "Run in headless CI mode with exit-code gating", true).option("--export-pr-comment <path>", "Export Markdown PR comment summary file").option("--export-sarif <path>", "Export SARIF vulnerability report for GitHub Security tab").option("--fail-on-injection", "Trigger immediate build failure on prompt injection vulnerability", true).option("--max-cost-per-task <usd>", "Enforce maximum cost ceiling per completed task", parseFloat).action(async (options) => {
   try {
     let config2;
@@ -21015,7 +21015,8 @@ program2.command("test").description("Execute the ASTI v1.1 adversarial test bat
     if (options.exportPrComment) config2.reporting.export_pr_comment = options.exportPrComment;
     if (options.exportSarif) config2.reporting.export_sarif = options.exportSarif;
     if (isDemoMode) {
-      console.log(`\x1B[36m\x1B[1m\u26A1 Zero-config demo mode: executing ASTI v1.1 battery against reference agent fixture.\x1B[0m`);
+      console.log(`\x1B[33m\x1B[1m\u26A1 DEMO MODE: built-in mock agent, not your agent\x1B[0m`);
+      console.log(`\x1B[36m\u26A1 Executing ASTI v1.1 battery against reference agent fixture.\x1B[0m`);
       console.log(`\x1B[90m\u{1F4A1} To test your live agent:  npx auditgpt test --endpoint http://localhost:8000/agent\x1B[0m`);
       console.log(`\x1B[90m\u{1F4A1} To scaffold local config: npx auditgpt init\x1B[0m
 `);
@@ -21025,7 +21026,7 @@ program2.command("test").description("Execute the ASTI v1.1 adversarial test bat
 `);
     }
     const results = await executeAdversarialSuite(config2);
-    renderTerminalOutput(results);
+    renderTerminalOutput(results, isDemoMode);
     if (config2.reporting.export_pr_comment) {
       const mdContent = generateMarkdownPRComment(results, config2);
       const resolvedPath = path3.resolve(process.cwd(), config2.reporting.export_pr_comment);

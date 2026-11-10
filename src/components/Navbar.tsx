@@ -40,7 +40,11 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
             className="inline-flex items-center gap-1.5 whitespace-nowrap font-semibold text-[#111827] transition-colors hover:text-slate-900"
           >
             Live Sandbox
-            <span className="rounded-full bg-[#b5f22b] px-2 py-0.5 font-mono text-[10px] font-bold text-[#111827]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b5f22b] px-2 py-0.5 font-mono text-[10px] font-bold text-[#111827]">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-slate-900 opacity-75"></span>
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-slate-900"></span>
+              </span>
               DEMO
             </span>
           </a>

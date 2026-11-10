@@ -1,6 +1,7 @@
 {
-  "name": "auditgpt",
-  "version": "1.1.0",
+  "name": "auditgpt-web",
+  "version": "1.1.1",
+  "private": true,
   "license": "MIT",
   "bin": {
     "auditgpt": "bin/auditgpt.js"

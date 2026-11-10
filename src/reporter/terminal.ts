@@ -4,9 +4,9 @@
 
 import { SuiteExecutionResult } from "../runner/engine";
 
-export function renderTerminalOutput(results: SuiteExecutionResult): void {
+export function renderTerminalOutput(results: SuiteExecutionResult, isDemoMode: boolean = false): void {
   console.log(`\x1b[1m═══════════════════════════════════════════════════════════════════\x1b[0m`);
-  console.log(`\x1b[36m\x1b[1m  ASTI v1.1 ADVERSARIAL STRESS-TEST RESULTS\x1b[0m`);
+  console.log(`\x1b[36m\x1b[1m  ASTI v1.1 ADVERSARIAL STRESS-TEST RESULTS${isDemoMode ? " (DEMO MODE)" : ""}\x1b[0m`);
   console.log(`\x1b[1m═══════════════════════════════════════════════════════════════════\x1b[0m\n`);
 
   console.log(`\x1b[1mSuite Performance Breakdown:\x1b[0m`);
@@ -17,10 +17,10 @@ export function renderTerminalOutput(results: SuiteExecutionResult): void {
     console.log(`  \x1b[90m${suite.padEnd(12)}\x1b[0m [${color}${bar}\x1b[0m] ${color}${score}%\x1b[0m`);
   }
 
-  console.log(`\n\x1b[1mEconomic Telemetry:\x1b[0m`);
+  console.log(`\n\x1b[1mEconomic Telemetry${isDemoMode ? " (Simulated)" : ""}:\x1b[0m`);
   console.log(`  • Tests Executed: \x1b[37m\x1b[1m${results.totalTests}\x1b[0m (\x1b[32m${results.passedCount} passed\x1b[0m, \x1b[31m${results.failedCount} failed\x1b[0m)`);
-  console.log(`  • Total Tokens Burned: \x1b[35m${results.tokenConsumption.totalTokens.toLocaleString()}\x1b[0m (avg ${results.tokenConsumption.avgTokensPerTask}/task)`);
-  console.log(`  • Total Test Spend: \x1b[33m$${results.tokenConsumption.totalCostUsd.toFixed(4)}\x1b[0m`);
+  console.log(`  • Total Tokens Burned: \x1b[35m${results.tokenConsumption.totalTokens.toLocaleString()}\x1b[0m (avg ${results.tokenConsumption.avgTokensPerTask}/task)${isDemoMode ? " (simulated)" : ""}`);
+  console.log(`  • Total Test Spend: \x1b[33m$${results.tokenConsumption.totalCostUsd.toFixed(4)}\x1b[0m${isDemoMode ? " (simulated)" : ""}`);
   console.log(`  • Avg Latency: \x1b[36m${results.tokenConsumption.avgLatencySec}s\x1b[0m`);
 
   const failures = results.outcomes.filter((o) => !o.passed);

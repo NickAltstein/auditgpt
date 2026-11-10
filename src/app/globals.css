@@ -91,3 +91,9 @@ html, body {
   background-color: #35363b;
   transform: translateY(-1px);
 }
+
+/* Technical Dot-Matrix Background */
+.bg-dot-matrix {
+  background-image: radial-gradient(rgba(36, 36, 38, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}

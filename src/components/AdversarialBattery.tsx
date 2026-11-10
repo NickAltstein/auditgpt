@@ -233,10 +233,13 @@ export function AdversarialBattery() {
               10 Adversarial Test Vectors in Suite:
             </div>
             <div className="grid gap-2.5 sm:grid-cols-2">
-              {current.tests.map((test) => (
-                <div
+              {current.tests.map((test, idx) => (
+                <motion.div
                   key={test.id}
-                  className="flex flex-col justify-between gap-2 rounded-xl border border-[rgba(36,36,38,0.08)] bg-[#ffffff] p-3 text-xs shadow-2xs"
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: idx * 0.03 }}
+                  className="flex flex-col justify-between gap-2 rounded-xl border border-[rgba(36,36,38,0.08)] bg-[#ffffff] p-3 text-xs shadow-2xs hover:border-[rgba(36,36,38,0.2)] transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-[10px] font-bold bg-[#ebeff5] text-[#242426] px-1.5 py-0.5 rounded">
@@ -253,7 +256,7 @@ export function AdversarialBattery() {
                     <CheckCircle2 className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#16a34a]" />
                     <span className="leading-tight text-[#15803d] font-mono">{test.assertion}</span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

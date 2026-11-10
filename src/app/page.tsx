@@ -77,7 +77,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f6f9] text-[#111827] font-sans antialiased">
+    <div className="min-h-screen bg-[#f4f6f9] bg-dot-matrix text-[#111827] font-sans antialiased">
       {/* Floating Pill Navbar */}
       <Navbar onScrollToTerminal={scrollToTop} />
 
