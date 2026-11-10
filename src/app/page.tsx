@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { AdversarialBattery } from '@/components/AdversarialBattery';
@@ -154,18 +155,18 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {/* Free CLI */}
-              <div className="makro-card p-6 sm:p-8 flex flex-col justify-between">
+              <div className="makro-card p-6 sm:p-7 flex flex-col justify-between">
                 <div>
                   <div className="font-mono text-xs font-semibold uppercase text-[#667085]">
-                    Free Open-Source CLI
+                    Free CLI
                   </div>
                   <div className="mt-3 font-mono text-3xl font-bold text-[#111827]">
                     $0 <span className="text-xs text-[#667085] font-normal">/ forever</span>
                   </div>
                   <p className="mt-2 text-xs text-[#475467]">
-                    Full 50-test ASTI battery for local development and debugging.
+                    Full 50-test ASTI battery for local development and debugging. Zero account required.
                   </p>
                   <ul className="mt-6 space-y-2.5 text-xs text-[#111827]">
                     <li className="flex items-center gap-2">
@@ -195,29 +196,33 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* Team Suite */}
-              <div className="rounded-3xl border border-[#111827] bg-[#111827] p-6 sm:p-8 text-white relative flex flex-col justify-between shadow-xl">
+              {/* Team */}
+              <div className="rounded-3xl border border-[#111827] bg-[#111827] p-6 sm:p-7 text-white relative flex flex-col justify-between shadow-xl">
                 <div className="absolute top-4 right-5 font-mono text-[9px] uppercase font-bold text-[#111827] bg-[#c8f135] px-2.5 py-0.5 rounded-full">
                   Recommended
                 </div>
                 <div>
                   <div className="font-mono text-xs font-semibold uppercase text-[#c8f135]">
-                    Team Suite
+                    Team
                   </div>
                   <div className="mt-3 font-mono text-3xl font-bold text-white">
                     $499 <span className="text-xs text-white/60 font-normal">/ mo</span>
                   </div>
                   <p className="mt-2 text-xs text-white/80">
-                    For engineering teams deploying autonomous agents to production.
+                    Automated GitHub Action PR merge blocking and basic runtime observability.
                   </p>
                   <ul className="mt-6 space-y-2.5 text-xs text-white/90">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
-                      <span>GitHub Action PR blocking defense gate</span>
+                      <span>GitHub Action PR merge gate</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
-                      <span>5 engineering team seats included</span>
+                      <span>5 engineering seats included</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
+                      <span>2,500 CI/CD stress-test runs / mo</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
@@ -225,46 +230,93 @@ export default function Home() {
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
-                      <span>Automated PR failure trace diff summaries</span>
+                      <span>OTel &amp; Langfuse trace connectors</span>
                     </li>
                   </ul>
                 </div>
                 <a
-                  href="mailto:sales@auditgpt.ai?subject=Team%20Suite%20Inquiry"
+                  href="mailto:sales@auditgpt.ai?subject=Team%20Plan%20Inquiry"
                   className="mt-6 block text-center rounded-full bg-[#c8f135] py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#bce628]"
                 >
                   Deploy Team Gate
                 </a>
               </div>
 
-              {/* Growth / Scale */}
-              <div className="makro-card p-6 sm:p-8 flex flex-col justify-between">
+              {/* Growth */}
+              <div className="makro-card p-6 sm:p-7 flex flex-col justify-between">
                 <div>
                   <div className="font-mono text-xs font-semibold uppercase text-[#667085]">
-                    Growth / Scale
+                    Growth
                   </div>
                   <div className="mt-3 font-mono text-3xl font-bold text-[#111827]">
                     $2,499 <span className="text-xs text-[#667085] font-normal">/ mo</span>
                   </div>
                   <p className="mt-2 text-xs text-[#475467]">
-                    For high-volume multi-agent systems and enterprise compliance.
+                    Custom domain scenarios, multi-team RBAC, and high-volume runtime protection.
                   </p>
                   <ul className="mt-6 space-y-2.5 text-xs text-[#111827]">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Custom domain adversarial test scenarios</span>
+                      <span>Everything in Team</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Multi-agent state &amp; trace replay debugger</span>
+                      <span>Custom domain adversarial scenarios</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Real-time Slack &amp; Teams incident alerts</span>
+                      <span>Multi-agent state &amp; trace replay</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Enterprise SSO, SAML &amp; dedicated VPC</span>
+                      <span>15 engineering seats &amp; 15k runs/mo</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
+                      <span>Priority Slack support (4h SLA)</span>
+                    </li>
+                  </ul>
+                </div>
+                <a
+                  href="mailto:sales@auditgpt.ai?subject=Growth%20Plan%20Inquiry"
+                  className="mt-6 block text-center rounded-full border border-[#e2e8f0] bg-[#f8fafc] py-2.5 font-mono text-xs font-semibold text-[#111827] transition-colors hover:bg-white"
+                >
+                  Upgrade to Growth
+                </a>
+              </div>
+
+              {/* Enterprise */}
+              <div className="makro-card p-6 sm:p-7 flex flex-col justify-between">
+                <div>
+                  <div className="font-mono text-xs font-semibold uppercase text-[#667085]">
+                    Enterprise
+                  </div>
+                  <div className="mt-3 font-mono text-3xl font-bold text-[#111827]">
+                    Custom <span className="text-xs text-[#667085] font-normal">/ annual</span>
+                  </div>
+                  <p className="mt-2 text-xs text-[#475467]">
+                    Dedicated VPC runners, Okta SSO/SAML, custom SLAs, and SOC2 compliance packages.
+                  </p>
+                  <ul className="mt-6 space-y-2.5 text-xs text-[#111827]">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
+                      <span>Everything in Growth</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
+                      <span>Dedicated AWS/GCP VPC deployment</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
+                      <span>Okta / Entra ID / Google SSO / SAML</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
+                      <span>Unlimited CI/CD stress-test runs</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
+                      <span>1h Dedicated Slack SLA + Named TSE</span>
                     </li>
                   </ul>
                 </div>
@@ -272,9 +324,19 @@ export default function Home() {
                   href="mailto:sales@auditgpt.ai?subject=Enterprise%20VPC%20Inquiry"
                   className="mt-6 block text-center rounded-full border border-[#e2e8f0] bg-[#f8fafc] py-2.5 font-mono text-xs font-semibold text-[#111827] transition-colors hover:bg-white"
                 >
-                  Contact Enterprise Team
+                  Contact Enterprise Sales
                 </a>
               </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#111827] hover:underline"
+              >
+                <span>Compare all features across Free, Team, Growth &amp; Enterprise</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
         </section>
