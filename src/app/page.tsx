@@ -398,7 +398,7 @@ export default function Home() {
               <strong className="text-[#111827]">Zero Data Egress &amp; Sandbox Isolation:</strong> AuditGPT executes adversarial evaluation suites locally or inside your private VPC runner. Powered by <a href="https://github.com/NickAltstein/receiptd" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#111827] underline">Receiptd</a> runtime enforcement and Ed25519 execution receipts. We never train on, store, or exfiltrate private prompts, schemas, or tool payloads.
             </p>
             <p className="pt-2 text-[#667085]">
-              &copy; {new Date().getFullYear()} AuditGPT.ai &mdash; Snyk for Autonomous AI Agents. Licensed under Apache 2.0.
+              &copy; {new Date().getFullYear()} AuditGPT.ai &mdash; Snyk for Autonomous AI Agents. Licensed under MIT.
             </p>
           </div>
         </div>
