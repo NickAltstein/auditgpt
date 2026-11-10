@@ -273,7 +273,7 @@ export default function Home() {
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Priority Slack support (4h SLA)</span>
+                      <span>Priority Slack support (4h SLA, on request)</span>
                     </li>
                   </ul>
                 </div>
@@ -304,11 +304,11 @@ export default function Home() {
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Dedicated AWS/GCP VPC deployment</span>
+                      <span>Dedicated AWS/GCP VPC deployment (on request)</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Okta / Entra ID / Google SSO / SAML</span>
+                      <span>Okta / Entra ID / Google SSO / SAML (on request)</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
@@ -316,7 +316,7 @@ export default function Home() {
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>1h Dedicated Slack SLA + Named TSE</span>
+                      <span>1h Dedicated Slack SLA + Named TSE (on request)</span>
                     </li>
                   </ul>
                 </div>

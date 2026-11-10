@@ -4,10 +4,10 @@ import React from 'react';
 import { Activity, Flame, Cpu, ShieldCheck } from 'lucide-react';
 
 const RUNTIME_INTEGRATIONS = [
-  { name: 'OpenTelemetry (OTel)', type: 'Standard Protocol', latency: '< 2ms', status: 'Native OTLP' },
-  { name: 'Langfuse', type: 'Trace Ingestion', latency: '< 1ms', status: 'Auto-Hook' },
-  { name: 'LiteLLM Proxy', type: 'Gateway Middleware', latency: '< 3ms', status: 'Plugin' },
-  { name: 'Helicone / LangSmith', type: 'Trace Mirroring', latency: '< 2ms', status: 'Webhook' },
+  { name: 'OpenTelemetry (OTel)', type: 'Standard Protocol', status: 'Native OTLP' },
+  { name: 'Langfuse', type: 'Trace Ingestion', status: 'Auto-Hook' },
+  { name: 'LiteLLM Proxy', type: 'Gateway Middleware', status: 'Plugin' },
+  { name: 'Helicone / LangSmith', type: 'Trace Mirroring', status: 'Webhook' },
 ];
 
 export function RuntimeObservability() {
@@ -36,7 +36,7 @@ export function RuntimeObservability() {
               Cost-per-Task Anomaly Alerts
             </h3>
             <p className="text-xs text-[#58718a] leading-relaxed">
-              Detects when background agent retries drive effective task costs above your defined threshold ($0.15), alerting via Slack or PagerDuty before monthly bills explode.
+              Detects when background agent retries drive effective task costs above your defined threshold ($0.15), alerting via Slack or PagerDuty (on request) before monthly bills explode.
             </p>
           </div>
 
@@ -60,7 +60,7 @@ export function RuntimeObservability() {
               OTel &amp; Trace Native
             </h3>
             <p className="text-xs text-[#58718a] leading-relaxed">
-              Zero vendor lock-in. Stream agent traces via standard OpenTelemetry (OTLP), Langfuse, LiteLLM, or custom webhooks with zero measurable latency overhead.
+              Zero vendor lock-in. Stream agent traces via standard OpenTelemetry (OTLP), Langfuse, LiteLLM, or custom webhooks via background streaming.
             </p>
           </div>
         </div>
@@ -84,8 +84,7 @@ export function RuntimeObservability() {
               >
                 <div className="font-bold text-[#242426]">{item.name}</div>
                 <div className="text-[#58718a] text-[11px] mt-0.5">{item.type}</div>
-                <div className="mt-2 flex items-center justify-between border-t border-[rgba(36,36,38,0.08)] pt-1.5 text-[10px]">
-                  <span className="text-[#58718a]">{item.latency}</span>
+                <div className="mt-2 flex items-center justify-end border-t border-[rgba(36,36,38,0.08)] pt-1.5 text-[10px]">
                   <span className="font-semibold text-[#242426]">{item.status}</span>
                 </div>
               </div>

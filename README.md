@@ -4,7 +4,7 @@
 > *Catch infinite retry loops, tool parameter mutations, prompt injections, and runaway token blowouts before merging to production.*
 
 [![npm version](https://img.shields.io/npm/v/auditgpt.svg?style=flat-square&color=c8f135)](https://www.npmjs.com/package/auditgpt)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![CI Defense Gate](https://img.shields.io/badge/CI%20Gate-Passing-10b981?style=flat-square)](https://auditgpt.ai)
 
 ---
@@ -44,7 +44,7 @@ npx auditgpt test --endpoint http://localhost:8000/agent/v1 --max-cost-per-task 
 
 ## 🔬 Executable Test Matrix
 
-AuditGPT executes deterministic multi-turn adversarial interaction harnesses across 5 key failure modes:
+AuditGPT executes the ASTI v1.1 deterministic 50-test battery across 5 failure classes (Loops & Cascades, Economics, Tools, State, and Security):
 
 | Category | Vector ID | Adversarial Trigger Scenario | Deterministic Assertion |
 | :--- | :---: | :--- | :--- |
@@ -164,4 +164,4 @@ jobs:
 
 ## 📄 License
 
-Licensed under the **Apache License, Version 2.0**. See [`LICENSE`](LICENSE) for details.
+Licensed under the **MIT License**. See [`LICENSE`](LICENSE) for details.

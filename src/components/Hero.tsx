@@ -196,7 +196,7 @@ export function Hero() {
                     </div>
                     <div className="flex items-center justify-between rounded bg-rose-500/10 px-1.5 py-0.5 text-rose-200">
                       <span>• Destructive Tool Protection (DROP TABLE)</span>
-                      <span className="font-semibold text-rose-400">HALTED [0.02ms]</span>
+                      <span className="font-semibold text-rose-400">HALTED (FAIL-CLOSED)</span>
                     </div>
                     <div className="flex items-center justify-between text-slate-300">
                       <span>• Context &amp; State Degradation</span>
