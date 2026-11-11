@@ -141,34 +141,36 @@ export function CliGateSection() {
 
         {/* Tabbed Code Container */}
         <div className="makro-card mt-8 overflow-hidden">
-          <div className="flex items-center justify-between border-b border-[rgba(36,36,38,0.08)] bg-[#f8fafc] px-6 py-3">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-[rgba(36,36,38,0.08)] bg-[#f8fafc] px-3.5 sm:px-6 py-2.5 sm:py-3">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => setActiveTab('config')}
                 aria-label="View auditgpt.config.yaml"
-                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-mono transition-all cursor-pointer ${
+                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs font-mono transition-all cursor-pointer ${
                   activeTab === 'config'
                     ? 'bg-white text-[#242426] font-bold shadow-2xs'
                     : 'text-[#58718a] hover:text-[#242426]'
                 }`}
               >
                 <FileCode className="h-3.5 w-3.5" />
-                <span>auditgpt.config.yaml</span>
+                <span className="hidden sm:inline">auditgpt.config.yaml</span>
+                <span className="sm:hidden">config.yaml</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('action')}
                 aria-label="View GitHub Actions workflow"
-                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-mono transition-all cursor-pointer ${
+                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs font-mono transition-all cursor-pointer ${
                   activeTab === 'action'
                     ? 'bg-white text-[#242426] font-bold shadow-2xs'
                     : 'text-[#58718a] hover:text-[#242426]'
                 }`}
               >
                 <GitPullRequest className="h-3.5 w-3.5" />
-                <span>.github/workflows/auditgpt-gate.yml</span>
+                <span className="hidden sm:inline">.github/workflows/auditgpt-gate.yml</span>
+                <span className="sm:hidden">gate.yml</span>
               </button>
             </div>
 
@@ -176,10 +178,10 @@ export function CliGateSection() {
               type="button"
               onClick={copyActiveCode}
               aria-label="Copy active file content"
-              className="flex min-h-[36px] items-center gap-1.5 rounded-lg border border-[rgba(36,36,38,0.08)] bg-white px-3.5 py-1.5 text-xs font-mono text-[#242426] transition-colors hover:bg-[#d9ff5c] cursor-pointer"
+              className="flex min-h-[36px] items-center gap-1.5 rounded-lg border border-[rgba(36,36,38,0.08)] bg-white px-3 sm:px-3.5 py-1.5 text-xs font-mono text-[#242426] transition-colors hover:bg-[#d9ff5c] cursor-pointer"
             >
               {copiedCode ? <Check className="h-3.5 w-3.5 text-[#16a34a]" /> : <Copy className="h-3.5 w-3.5" />}
-              <span>{copiedCode ? 'Copied' : 'Copy File'}</span>
+              <span>{copiedCode ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
 

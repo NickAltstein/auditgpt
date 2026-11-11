@@ -9,20 +9,20 @@ interface NavbarProps {
 
 export function Navbar({ onScrollToTerminal }: NavbarProps) {
   return (
-    <header className="sticky top-4 z-50 mx-auto max-w-6xl px-4">
-      <nav className="flex items-center justify-between gap-6 rounded-full border border-slate-200/80 bg-white/95 px-5 py-2.5 shadow-sm backdrop-blur-md">
+    <header className="sticky top-4 z-50 mx-auto max-w-6xl px-3 sm:px-4">
+      <nav className="flex items-center justify-between gap-3 sm:gap-6 rounded-full border border-slate-200/80 bg-white/95 px-3.5 py-2 sm:px-5 sm:py-2.5 shadow-sm backdrop-blur-md">
         {/* Brand Lockup */}
-        <a href="#" className="flex shrink-0 items-center gap-3">
+        <a href="#" className="flex shrink-0 items-center gap-2.5 sm:gap-3">
           <Image
             src="/logo-shield.png"
             alt="AuditGPT Shield"
             width={36}
             height={36}
             priority
-            className="h-9 w-9 rounded-full object-contain"
+            className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-contain"
           />
           <div className="flex flex-col leading-none">
-            <span className="text-base font-bold tracking-tight text-[#111827]">
+            <span className="text-sm sm:text-base font-bold tracking-tight text-[#111827]">
               AuditGPT<span className="font-normal text-slate-400">.ai</span>
             </span>
             <span className="mt-0.5 font-mono text-xs tracking-wider text-slate-500 uppercase">
@@ -75,10 +75,11 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
         <div className="flex shrink-0 items-center">
           <a
             href="mailto:sales@auditgpt.ai?subject=Team%20Suite%20Inquiry"
-            className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-[#b5f22b] px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-2xs transition-transform hover:scale-[1.01]"
+            className="inline-flex min-h-[38px] items-center gap-1.5 whitespace-nowrap rounded-full bg-[#b5f22b] px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-[#111827] shadow-2xs transition-transform hover:scale-[1.01]"
           >
-            <span>Deploy Gate</span>
-            <span aria-hidden="true">→</span>
+            <span className="hidden xs:inline sm:inline">Deploy Gate</span>
+            <span className="xs:hidden sm:hidden">Deploy</span>
+            <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
       </nav>

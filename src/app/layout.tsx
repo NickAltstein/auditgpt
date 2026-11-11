@@ -16,9 +16,6 @@ export const metadata: Metadata = {
   title: "AuditGPT.ai — Adversarial Stress-Testing & CI/CD Gate for Autonomous AI Agents",
   description:
     "Snyk for Autonomous AI Agents. Run the open-source CLI (npx auditgpt) to catch recursive retry loops, destructive tool calls, prompt injections, and runaway token costs before merging to production.",
-  alternates: {
-    canonical: "https://auditgpt.ai",
-  },
   keywords: [
     "AI agent stress testing",
     "Snyk for AI agents",

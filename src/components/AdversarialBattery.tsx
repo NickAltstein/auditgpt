@@ -140,8 +140,27 @@ export const BATTERY_CATEGORIES: BatteryCategory[] = [
 export function AdversarialBattery() {
   const reduce = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState<string>('loop');
+  const tabsRef = React.useRef<(HTMLButtonElement | null)[]>([]);
 
   const current = BATTERY_CATEGORIES.find((c) => c.id === activeCategory) || BATTERY_CATEGORIES[0];
+
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let nextIndex = index;
+    if (e.key === 'ArrowRight') {
+      nextIndex = (index + 1) % BATTERY_CATEGORIES.length;
+    } else if (e.key === 'ArrowLeft') {
+      nextIndex = (index - 1 + BATTERY_CATEGORIES.length) % BATTERY_CATEGORIES.length;
+    } else if (e.key === 'Home') {
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      nextIndex = BATTERY_CATEGORIES.length - 1;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    setActiveCategory(BATTERY_CATEGORIES[nextIndex].id);
+    tabsRef.current[nextIndex]?.focus();
+  };
 
   return (
     <section id="battery" className="py-20 px-4 sm:px-6">
@@ -160,16 +179,22 @@ export function AdversarialBattery() {
 
         {/* Category Tabs */}
         <div role="tablist" aria-label="Adversarial Failure Categories" className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
-          {BATTERY_CATEGORIES.map((cat) => {
+          {BATTERY_CATEGORIES.map((cat, idx) => {
             const isSelected = activeCategory === cat.id;
             const Icon = cat.icon;
             return (
               <button
                 key={cat.id}
+                ref={(el) => {
+                  tabsRef.current[idx] = el;
+                }}
+                id={`battery-tab-${cat.id}`}
                 type="button"
                 role="tab"
+                tabIndex={isSelected ? 0 : -1}
                 aria-selected={isSelected}
                 aria-controls={`battery-panel-${cat.id}`}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
                 onClick={() => setActiveCategory(cat.id)}
                 className={`flex min-h-[40px] items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                   isSelected
@@ -192,6 +217,8 @@ export function AdversarialBattery() {
           key={current.id}
           id={`battery-panel-${current.id}`}
           role="tabpanel"
+          tabIndex={0}
+          aria-labelledby={`battery-tab-${current.id}`}
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -222,7 +249,7 @@ export function AdversarialBattery() {
             </div>
 
             <div className="rounded-2xl border border-[rgba(36,36,38,0.08)] bg-[#f8fafc] p-4 space-y-1.5">
-              <div className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-[#16a34a]">
+              <div className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-[#166534]">
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 Pass Assertion Criteria
               </div>
@@ -258,8 +285,8 @@ export function AdversarialBattery() {
                   </div>
 
                   <div className="flex items-start gap-1.5 text-xs bg-[#f0fdf4] p-2.5 rounded-lg border border-[#bbf7d0]">
-                    <CheckCircle2 className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#16a34a]" />
-                    <span className="leading-tight text-[#15803d] font-mono">{test.assertion}</span>
+                    <CheckCircle2 className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#166534]" />
+                    <span className="leading-tight text-[#166534] font-mono font-medium">{test.assertion}</span>
                   </div>
                 </motion.div>
               ))}

@@ -92,6 +92,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#f4f6f9] bg-dot-matrix text-[#111827] font-sans antialiased">
+      <link rel="canonical" href="https://auditgpt.ai" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
