@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Logo } from '@/components/logo';
+import { InvoiceCaseStudyProof } from '@/components/InvoiceCaseStudyProof';
 
 export default function ProofCenterPage() {
   return (
@@ -158,10 +159,13 @@ export default function ProofCenterPage() {
               <h2 className="font-mono text-xs uppercase tracking-widest text-stone-400 mb-6 flex items-center gap-2">
                 <span className="w-4 h-[1px] bg-stone-300"></span> 03. Case studies
               </h2>
-              <div className="bg-stone-50 border border-stone-200 p-8 rounded-sm shadow-sm print:shadow-none">
-                <p className="text-sm text-stone-600 leading-relaxed">
-                  We publish redacted audits as we complete them, with client permission. We don&rsquo;t post invented examples, and we don&rsquo;t gate fabricated &ldquo;SOC2 reports&rdquo; or &ldquo;penetration test results&rdquo; behind an NDA &mdash; we don&rsquo;t have those, and we won&rsquo;t imply we do. When real case studies exist, they&rsquo;ll appear here.
-                </p>
+              <div className="space-y-4">
+                <InvoiceCaseStudyProof />
+                <div className="bg-stone-50 border border-stone-200 p-4 rounded-sm shadow-sm print:shadow-none">
+                  <p className="text-xs text-stone-600 leading-relaxed font-mono">
+                    All case studies are backed by open-source fixtures and reproducible CI test runs. We never post fabricated audits.
+                  </p>
+                </div>
               </div>
             </section>
 

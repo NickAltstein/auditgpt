@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { PlatformArchitecture } from '@/components/PlatformArchitecture';
+import { InvoiceCaseStudyProof } from '@/components/InvoiceCaseStudyProof';
 import { AdversarialBattery } from '@/components/AdversarialBattery';
 import { CliGateSection } from '@/components/CliGateSection';
 import { RuntimeObservability } from '@/components/RuntimeObservability';
@@ -109,6 +110,13 @@ export default function Home() {
 
         {/* Platform Architecture: Test · Enforce · Monitor · Prove */}
         <PlatformArchitecture />
+
+        {/* Verified Case Study: Synthetic Invoice Review */}
+        <section id="case-study" className="py-8 px-4 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <InvoiceCaseStudyProof />
+          </div>
+        </section>
 
         {/* 1. 50-Test Battery */}
         <AdversarialBattery />
