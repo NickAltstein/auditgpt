@@ -46,7 +46,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-x-clip px-4 pt-12 pb-20 sm:px-6 lg:pt-16 lg:pb-28">
+    <section className="relative overflow-x-clip px-4 pt-28 pb-20 sm:px-6 sm:pt-32 lg:pt-36 lg:pb-28">
       <div className="mx-auto max-w-6xl">
         {/* Asymmetric 2-Column Grid */}
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">

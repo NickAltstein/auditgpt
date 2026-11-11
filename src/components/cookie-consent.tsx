@@ -29,7 +29,7 @@ export function CookieConsent() {
     <div
       role="region"
       aria-label="Cookie and Privacy Notice"
-      className="fixed bottom-4 left-4 z-40 flex max-w-sm items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 text-xs text-slate-600 shadow-lg backdrop-blur-sm"
+      className="fixed bottom-4 right-4 z-40 flex max-w-sm items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 text-xs text-slate-600 shadow-lg backdrop-blur-sm"
     >
       <p className="leading-snug text-[13px]">
         Essential session state only. Zero tracking.{' '}
