@@ -130,9 +130,10 @@ export function CliGateSection() {
             <button
               type="button"
               onClick={copyCliCommand}
-              className="inline-flex items-center gap-1 rounded-full bg-[#ebeff5] px-3 py-1 font-mono text-[11px] font-medium text-[#242426] hover:bg-[#d9ff5c]"
+              aria-label="Copy CLI command"
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-[#ebeff5] px-4 py-1.5 font-mono text-xs font-semibold text-[#242426] hover:bg-[#d9ff5c] cursor-pointer"
             >
-              <Copy className="h-3 w-3" />
+              <Copy className="h-3.5 w-3.5" />
               <span>Copy</span>
             </button>
           </div>
@@ -145,7 +146,8 @@ export function CliGateSection() {
               <button
                 type="button"
                 onClick={() => setActiveTab('config')}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono transition-all ${
+                aria-label="View auditgpt.config.yaml"
+                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-mono transition-all cursor-pointer ${
                   activeTab === 'config'
                     ? 'bg-white text-[#242426] font-bold shadow-2xs'
                     : 'text-[#58718a] hover:text-[#242426]'
@@ -158,7 +160,8 @@ export function CliGateSection() {
               <button
                 type="button"
                 onClick={() => setActiveTab('action')}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono transition-all ${
+                aria-label="View GitHub Actions workflow"
+                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-mono transition-all cursor-pointer ${
                   activeTab === 'action'
                     ? 'bg-white text-[#242426] font-bold shadow-2xs'
                     : 'text-[#58718a] hover:text-[#242426]'
@@ -172,7 +175,8 @@ export function CliGateSection() {
             <button
               type="button"
               onClick={copyActiveCode}
-              className="flex items-center gap-1.5 rounded-lg border border-[rgba(36,36,38,0.08)] bg-white px-3 py-1 text-xs font-mono text-[#242426] transition-colors hover:bg-[#d9ff5c]"
+              aria-label="Copy active file content"
+              className="flex min-h-[36px] items-center gap-1.5 rounded-lg border border-[rgba(36,36,38,0.08)] bg-white px-3.5 py-1.5 text-xs font-mono text-[#242426] transition-colors hover:bg-[#d9ff5c] cursor-pointer"
             >
               {copiedCode ? <Check className="h-3.5 w-3.5 text-[#16a34a]" /> : <Copy className="h-3.5 w-3.5" />}
               <span>{copiedCode ? 'Copied' : 'Copy File'}</span>

@@ -159,7 +159,7 @@ export function AdversarialBattery() {
         </div>
 
         {/* Category Tabs */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+        <div role="tablist" aria-label="Adversarial Failure Categories" className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
           {BATTERY_CATEGORIES.map((cat) => {
             const isSelected = activeCategory === cat.id;
             const Icon = cat.icon;
@@ -167,16 +167,19 @@ export function AdversarialBattery() {
               <button
                 key={cat.id}
                 type="button"
+                role="tab"
+                aria-selected={isSelected}
+                aria-controls={`battery-panel-${cat.id}`}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
+                className={`flex min-h-[40px] items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
                   isSelected
                     ? 'bg-[#242426] text-white shadow-sm'
-                    : 'bg-white border border-[rgba(36,36,38,0.08)] text-[#58718a] hover:text-[#242426]'
+                    : 'bg-white border border-[rgba(36,36,38,0.08)] text-[#475467] hover:text-[#242426]'
                 }`}
               >
                 <Icon className="h-3.5 w-3.5" style={{ color: isSelected ? '#d9ff5c' : cat.accent }} />
                 <span>{cat.name.split('&')[0].trim()}</span>
-                <span className={`rounded-full px-1.5 py-0.2 text-[9px] font-mono ${isSelected ? 'bg-white/20 text-white' : 'bg-[#ebeff5] text-[#58718a]'}`}>
+                <span className={`rounded-full px-2 py-0.5 text-xs font-mono font-bold ${isSelected ? 'bg-white/20 text-white' : 'bg-[#ebeff5] text-[#242426]'}`}>
                   {cat.range}
                 </span>
               </button>
@@ -187,6 +190,8 @@ export function AdversarialBattery() {
         {/* Active Category Card */}
         <motion.div
           key={current.id}
+          id={`battery-panel-${current.id}`}
+          role="tabpanel"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -207,7 +212,7 @@ export function AdversarialBattery() {
           {/* Failure Mode vs Pass Criteria */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-[rgba(36,36,38,0.08)] bg-[#f8fafc] p-4 space-y-1.5">
-              <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-[#e05243]">
+              <div className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-[#e05243]">
                 <AlertTriangle className="h-3.5 w-3.5" />
                 Primary Failure Mode Tested
               </div>
@@ -217,7 +222,7 @@ export function AdversarialBattery() {
             </div>
 
             <div className="rounded-2xl border border-[rgba(36,36,38,0.08)] bg-[#f8fafc] p-4 space-y-1.5">
-              <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-[#2e9e6b]">
+              <div className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-[#16a34a]">
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 Pass Assertion Criteria
               </div>
@@ -229,7 +234,7 @@ export function AdversarialBattery() {
 
           {/* All 10 Test Vectors */}
           <div>
-            <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#58718a] mb-3">
+            <div className="font-mono text-xs font-bold uppercase tracking-wider text-[#475467] mb-3">
               10 Adversarial Test Vectors in Suite:
             </div>
             <div className="grid gap-2.5 sm:grid-cols-2">
@@ -242,17 +247,17 @@ export function AdversarialBattery() {
                   className="flex flex-col justify-between gap-2 rounded-xl border border-[rgba(36,36,38,0.08)] bg-[#ffffff] p-3 text-xs shadow-2xs hover:border-[rgba(36,36,38,0.2)] transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-[10px] font-bold bg-[#ebeff5] text-[#242426] px-1.5 py-0.5 rounded">
+                    <span className="font-mono text-xs font-bold bg-[#ebeff5] text-[#242426] px-2 py-0.5 rounded">
                       {test.id}
                     </span>
                     <span className="font-medium text-[#242426] truncate">{test.title}</span>
                   </div>
 
-                  <div className="text-[11px] text-[#58718a]">
+                  <div className="text-xs text-[#475467]">
                     <span className="font-medium text-[#242426]">Trigger:</span> {test.trigger}
                   </div>
 
-                  <div className="flex items-start gap-1.5 text-[#2e9e6b] text-[11px] bg-[#f0fdf4] p-2 rounded-lg border border-[#bbf7d0]">
+                  <div className="flex items-start gap-1.5 text-xs bg-[#f0fdf4] p-2.5 rounded-lg border border-[#bbf7d0]">
                     <CheckCircle2 className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#16a34a]" />
                     <span className="leading-tight text-[#15803d] font-mono">{test.assertion}</span>
                   </div>

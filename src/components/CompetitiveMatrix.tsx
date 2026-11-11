@@ -140,7 +140,7 @@ export function CompetitiveMatrix() {
                 <div>
                   <div className="flex items-center justify-between gap-2">
                     <span
-                      className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-full"
+                      className="font-mono text-xs font-bold px-2.5 py-0.5 rounded-full"
                       style={{ backgroundColor: `${card.color}15`, color: card.color }}
                     >
                       {card.badge}
@@ -157,7 +157,7 @@ export function CompetitiveMatrix() {
                 </div>
 
                 <div className="rounded-xl border border-[rgba(36,36,38,0.08)] bg-[#f8fafc] p-3 text-xs italic text-[#242426] font-mono leading-relaxed">
-                  <div className="text-[10px] uppercase font-bold not-italic text-[#58718a] mb-1">
+                  <div className="text-xs uppercase font-bold not-italic text-[#475467] mb-1">
                     The Silver-Bullet Question:
                   </div>
                   {card.silverBullet}

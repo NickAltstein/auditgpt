@@ -71,14 +71,31 @@ const FAQ_ITEMS = [
 ];
 
 export default function Home() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f6f9] bg-dot-matrix text-[#111827] font-sans antialiased">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Floating Pill Navbar */}
       <Navbar onScrollToTerminal={scrollToTop} />
 
@@ -190,7 +207,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={scrollToTop}
-                  className="mt-6 w-full rounded-full border border-[#e2e8f0] bg-[#f8fafc] py-2.5 font-mono text-xs font-semibold text-[#111827] transition-colors hover:bg-white"
+                  aria-label="Scroll to top to run local CLI test"
+                  className="mt-6 w-full min-h-[40px] rounded-full border border-[#e2e8f0] bg-[#f8fafc] py-2.5 font-mono text-xs font-semibold text-[#111827] transition-colors hover:bg-white cursor-pointer"
                 >
                   Run Local CLI Test
                 </button>
@@ -198,7 +216,7 @@ export default function Home() {
 
               {/* Team */}
               <div className="rounded-3xl border border-[#111827] bg-[#111827] p-6 sm:p-7 text-white relative flex flex-col justify-between shadow-xl">
-                <div className="absolute top-4 right-5 font-mono text-[9px] uppercase font-bold text-[#111827] bg-[#c8f135] px-2.5 py-0.5 rounded-full">
+                <div className="absolute top-4 right-5 font-mono text-xs uppercase font-bold text-[#111827] bg-[#c8f135] px-3 py-1 rounded-full">
                   Recommended
                 </div>
                 <div>
@@ -361,7 +379,9 @@ export default function Home() {
                     <button
                       type="button"
                       onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      className="w-full p-4 sm:p-5 flex items-center justify-between gap-3 text-left font-display text-sm sm:text-base font-semibold text-[#111827]"
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${idx}`}
+                      className="w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between gap-3 text-left font-display text-sm sm:text-base font-semibold text-[#111827] cursor-pointer"
                     >
                       <span>{item.question}</span>
                       <ChevronRight
@@ -371,7 +391,10 @@ export default function Home() {
                       />
                     </button>
                     {isOpen && (
-                      <div className="border-t border-[#f1f5f9] bg-[#f8fafc] p-4 sm:p-5 text-xs text-[#475467] leading-relaxed">
+                      <div
+                        id={`faq-answer-${idx}`}
+                        className="border-t border-[#f1f5f9] bg-[#f8fafc] p-4 sm:p-5 text-[13px] sm:text-sm text-[#475467] leading-relaxed"
+                      >
                         {item.answer}
                       </div>
                     )}
@@ -386,7 +409,7 @@ export default function Home() {
         <section className="py-20 px-4 sm:px-6">
           <div className="mx-auto max-w-4xl">
             <div className="rounded-3xl border border-[#111827] bg-[#111827] p-8 sm:p-12 text-center text-white shadow-xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 font-mono text-xs font-semibold text-[#c8f135] mb-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-[#c8f135] mb-3">
                 <ShieldCheck className="h-3.5 w-3.5" /> Stop Shipping Broken Agent PRs
               </div>
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-white">
@@ -400,7 +423,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={scrollToTop}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#c8f135] px-6 py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#bce628]"
+                  aria-label="Scroll to top to run auditgpt test"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#c8f135] px-6 py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#bce628] cursor-pointer"
                 >
                   <Terminal className="h-4 w-4" />
                   <span>Run npx auditgpt test</span>
@@ -409,7 +433,7 @@ export default function Home() {
 
                 <a
                   href="#ci-gate"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-2.5 font-mono text-xs font-semibold text-white transition-colors hover:bg-white/20"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-2.5 font-mono text-xs font-semibold text-white transition-colors hover:bg-white/20"
                 >
                   <GitPullRequest className="h-3.5 w-3.5 text-[#c8f135]" />
                   <span>View GitHub Action Config</span>
@@ -456,7 +480,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border-t border-[#f1f5f9] pt-4 text-[11px] text-[#667085] leading-relaxed font-mono">
+          <div className="border-t border-[#f1f5f9] pt-4 text-xs text-[#475467] leading-relaxed font-mono">
             <p>
               <strong className="text-[#111827]">Zero Data Egress &amp; Sandbox Isolation:</strong> AuditGPT executes adversarial evaluation suites locally or inside your private VPC runner. Powered by <a href="https://github.com/NickAltstein/receiptd" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#111827] underline">Receiptd</a> runtime enforcement and Ed25519 execution receipts. We never train on, store, or exfiltrate private prompts, schemas, or tool payloads.
             </p>

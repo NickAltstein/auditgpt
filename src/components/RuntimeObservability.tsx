@@ -71,7 +71,7 @@ export function RuntimeObservability() {
             <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#242426]">
               Supported Trace &amp; Gateway Adapters
             </span>
-            <span className="font-mono text-[11px] text-[#2e9e6b] font-medium">
+            <span className="font-mono text-xs text-[#16a34a] font-semibold">
               Zero-Egress &bull; Local Evaluator Ready
             </span>
           </div>
@@ -83,8 +83,8 @@ export function RuntimeObservability() {
                 className="rounded-xl border border-[rgba(36,36,38,0.08)] bg-[#f8fafc] p-3 text-xs font-mono"
               >
                 <div className="font-bold text-[#242426]">{item.name}</div>
-                <div className="text-[#58718a] text-[11px] mt-0.5">{item.type}</div>
-                <div className="mt-2 flex items-center justify-end border-t border-[rgba(36,36,38,0.08)] pt-1.5 text-[10px]">
+                <div className="text-[#475467] text-xs mt-0.5">{item.type}</div>
+                <div className="mt-2 flex items-center justify-end border-t border-[rgba(36,36,38,0.08)] pt-1.5 text-xs">
                   <span className="font-semibold text-[#242426]">{item.status}</span>
                 </div>
               </div>

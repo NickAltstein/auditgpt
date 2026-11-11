@@ -46,7 +46,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative px-4 pt-12 pb-20 sm:px-6 lg:pt-16 lg:pb-28">
+    <section className="relative overflow-x-clip px-4 pt-12 pb-20 sm:px-6 lg:pt-16 lg:pb-28">
       <div className="mx-auto max-w-6xl">
         {/* Asymmetric 2-Column Grid */}
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
@@ -127,6 +127,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={copyQuickInstall}
+                aria-label="Copy npx auditgpt test command"
                 className="inline-flex h-12 items-center gap-2.5 whitespace-nowrap rounded-full border border-slate-200 bg-white px-5 font-mono text-xs font-medium text-[#111827] shadow-2xs transition-colors hover:bg-slate-50 cursor-pointer"
               >
                 <span className="text-slate-400">&gt;_</span>
@@ -165,7 +166,7 @@ export function Hero() {
           >
             {/* Background Soft Glows */}
             <div className="pointer-events-none absolute -top-12 -left-12 h-72 w-72 rounded-full bg-[#c8f135]/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-12 -right-12 h-72 w-72 rounded-full bg-[#b8deff]/30 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-12 right-0 h-72 w-72 max-w-full rounded-full bg-[#b8deff]/30 blur-3xl" />
 
             {/* Tilt Container */}
             <motion.div
@@ -226,17 +227,17 @@ export function Hero() {
                     <span>github-actions[bot]</span>
                     <span className="font-normal text-[#64748b]">commented on PR #142</span>
                   </div>
-                  <span className="rounded-full bg-[#f0fdf4] px-2 py-0.5 font-mono text-[10px] font-bold text-[#16a34a]">
+                  <span className="rounded-full bg-[#f0fdf4] px-2.5 py-0.5 font-mono text-xs font-bold text-[#16a34a]">
                     Gate Passed
                   </span>
                 </div>
 
                 <div className="mt-2.5 text-xs text-[#334155] space-y-1 font-mono">
                   <div className="font-bold text-[#0f172a]">## 🛡️ AuditGPT Agent Defense Gate</div>
-                  <div className="text-[11px] text-[#64748b]">
+                  <div className="text-xs text-[#475467]">
                     Status: 🟢 **PASSED** &bull; Composite Score: `96.0/100` &bull; Max task cost: `$0.0084`
                   </div>
-                  <div className="pt-1 text-[11px] text-[#64748b]">
+                  <div className="pt-1 text-xs text-[#475467]">
                     Zero recursive retry loops detected. All 50 adversarial vectors verified.
                   </div>
                 </div>

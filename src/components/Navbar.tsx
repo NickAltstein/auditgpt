@@ -25,22 +25,22 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
             <span className="text-base font-bold tracking-tight text-[#111827]">
               AuditGPT<span className="font-normal text-slate-400">.ai</span>
             </span>
-            <span className="mt-0.5 font-mono text-[10px] tracking-wider text-slate-400 uppercase">
+            <span className="mt-0.5 font-mono text-xs tracking-wider text-slate-500 uppercase">
               ASTI V1.1 Defense Gate
             </span>
           </div>
         </a>
 
         {/* Single-Line Navigation Links */}
-        <div className="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
+        <div className="hidden items-center gap-5 text-sm font-medium text-slate-600 lg:flex">
           <a
             href="https://sandbox.auditgpt.ai/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 whitespace-nowrap font-semibold text-[#111827] transition-colors hover:text-slate-900"
+            className="inline-flex min-h-[40px] items-center gap-1.5 py-2 whitespace-nowrap font-semibold text-[#111827] transition-colors hover:text-slate-900"
           >
             Live Sandbox
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b5f22b] px-2 py-0.5 font-mono text-[10px] font-bold text-[#111827]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b5f22b] px-2 py-0.5 font-mono text-xs font-bold text-[#111827]">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-slate-900 opacity-75"></span>
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-slate-900"></span>
@@ -48,25 +48,25 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
               DEMO
             </span>
           </a>
-          <a href="#cli" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="#cli" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             CLI
           </a>
-          <a href="#battery" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="#battery" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             50-Test Battery
           </a>
-          <a href="#ci-gate" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="#ci-gate" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             CI/CD Gate
           </a>
-          <a href="#runtime" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="#runtime" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             Observability
           </a>
-          <a href="#comparison" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="#comparison" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             Comparison
           </a>
-          <a href="#pricing" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="#pricing" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             Pricing
           </a>
-          <a href="/legal" className="whitespace-nowrap transition-colors hover:text-[#111827]">
+          <a href="/legal" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             Terms
           </a>
         </div>

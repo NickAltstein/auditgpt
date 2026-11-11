@@ -1,15 +1,24 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Providers } from "@/components/providers";
 import { CookieConsent } from "@/components/cookie-consent";
 import { JsonLd, AuditGPTOrganizationSchema, AuditGPTSoftwareSchema } from "@/components/json-ld";
 
+export const viewport: Viewport = {
+  themeColor: "#ebeff5",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://auditgpt.ai"),
   title: "AuditGPT.ai — Adversarial Stress-Testing & CI/CD Gate for Autonomous AI Agents",
   description:
     "Snyk for Autonomous AI Agents. Run the open-source CLI (npx auditgpt) to catch recursive retry loops, destructive tool calls, prompt injections, and runaway token costs before merging to production.",
+  alternates: {
+    canonical: "https://auditgpt.ai",
+  },
   keywords: [
     "AI agent stress testing",
     "Snyk for AI agents",
@@ -59,7 +68,7 @@ export default function RootLayout({
         <JsonLd type="Organization" data={AuditGPTOrganizationSchema} />
         <JsonLd type="SoftwareApplication" data={AuditGPTSoftwareSchema} />
       </head>
-      <body className="min-h-screen bg-[#f4f6f9] text-[#111827] antialiased selection:bg-[#c8f135] selection:text-[#111827]">
+      <body className="min-h-screen overflow-x-clip bg-[#f4f6f9] text-[#111827] antialiased selection:bg-[#c8f135] selection:text-[#111827]">
         <Providers>
           {children}
           <CookieConsent />
