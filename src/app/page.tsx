@@ -64,6 +64,7 @@ export default function Home() {
           <nav aria-label="Main navigation">
             <a href="#failure-classes">5 Failure Classes</a>
             <a href="#walkthrough">Interactive Simulator</a>
+            <a href="/receiptd">Receiptd Runtime</a>
             <a href="#case-study">Case Study</a>
             <a href="#quickstart">CI/CD SARIF Gate</a>
             <a className={styles.navCta} href={demo}>Open Simulator <ArrowUpRight size={14} aria-hidden="true" /></a>
@@ -162,6 +163,7 @@ export default function Home() {
         <span>AuditGPT.ai · MIT-licensed CLI</span>
         <nav aria-label="Footer navigation">
           <a href={demo}>Live sandbox <ArrowUpRight size={14} aria-hidden="true" /></a>
+          <a href="/receiptd">Receiptd</a>
           <a href="/proof">Proof</a>
           <a href="/legal">Terms</a>
           <a href="mailto:contact@auditgpt.ai">Contact</a>
