@@ -30,9 +30,9 @@ const FOUNDER_BENEFITS = [
   },
   {
     icon: Lock,
-    title: 'Immunity to Data & Prompt Leaks',
+    title: 'Pre-Merge Gate Against Data & Prompt Leaks',
     description:
-      'Ensure multi-turn prompt injections, role-play jailbreaks, and memory scanning cannot exfiltrate internal system prompts or API keys.',
+      'Ensure multi-turn prompt injections, role-play jailbreaks, and memory scanning fail closed before private system prompts or API keys can be exfiltrated.',
   },
   {
     icon: TrendingUp,
@@ -201,7 +201,7 @@ export default function Home() {
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>Community Discord &amp; GitHub support</span>
+                      <span>GitHub Issues &amp; Discussions support</span>
                     </li>
                   </ul>
                 </div>

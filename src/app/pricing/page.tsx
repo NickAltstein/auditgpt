@@ -20,7 +20,7 @@ const TIERS = [
       'Interactive ANSI test execution report',
       'Local Markdown & SARIF export',
       'OpenAI, Anthropic & REST protocols',
-      'Community Discord & GitHub support',
+      'GitHub Issues & Discussions support',
     ],
   },
   {

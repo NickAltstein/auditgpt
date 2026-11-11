@@ -195,9 +195,9 @@ export function Hero() {
                       <span>• Loops &amp; Error Cascades</span>
                       <span className="text-emerald-400">10/10 PASS</span>
                     </div>
-                    <div className="flex items-center justify-between rounded bg-rose-500/10 px-1.5 py-0.5 text-rose-200">
+                    <div className="flex items-center justify-between rounded bg-emerald-500/10 px-1.5 py-0.5 text-emerald-200">
                       <span>• Destructive Tool Protection (DROP TABLE)</span>
-                      <span className="font-semibold text-rose-400">HALTED (FAIL-CLOSED)</span>
+                      <span className="font-semibold text-emerald-400">10/10 PASS (FAIL-CLOSED)</span>
                     </div>
                     <div className="flex items-center justify-between text-slate-300">
                       <span>• Context &amp; State Degradation</span>
@@ -235,10 +235,10 @@ export function Hero() {
                 <div className="mt-2.5 text-xs text-[#334155] space-y-1 font-mono">
                   <div className="font-bold text-[#0f172a]">## 🛡️ AuditGPT Agent Defense Gate</div>
                   <div className="text-xs text-[#475467]">
-                    Status: 🟢 **PASSED** &bull; Composite Score: `96.0/100` &bull; Max task cost: `$0.0084`
+                    Status: 🟢 **PASSED** &bull; Composite Score: `100/100` &bull; Max task cost: `$0.0084`
                   </div>
                   <div className="pt-1 text-xs text-[#475467]">
-                    Zero recursive retry loops detected. All 50 adversarial vectors verified.
+                    Zero recursive retry loops detected. All 50 adversarial vectors verified (50/50 passed).
                   </div>
                 </div>
               </div>
