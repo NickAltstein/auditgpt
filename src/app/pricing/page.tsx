@@ -354,7 +354,7 @@ export default function PricingPage() {
             </span>
           </div>
           <div className="font-mono text-[11px]">
-            &copy; {new Date().getFullYear()} AuditGPT.ai &mdash; Snyk for Autonomous AI Agents.
+            &copy; {new Date().getFullYear()} AuditGPT.ai &mdash; Snyk for Autonomous AI Agents. MIT Licensed.
           </div>
         </div>
       </footer>
