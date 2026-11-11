@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 
 export function InvoiceCaseStudyProof() {
@@ -41,13 +39,13 @@ export function InvoiceCaseStudyProof() {
         <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-4">
           <div className="text-zinc-400 text-[11px] uppercase tracking-wider font-semibold">3. OFFLINE LEDGER PROOF</div>
           <div className="mt-1.5 font-bold text-emerald-400 text-sm">✓ ED25519 AUTHENTIC</div>
-          <div className="mt-1 text-zinc-400 text-[11px]">1-byte flip trips tamper alert</div>
+          <div className="mt-1 text-zinc-400 text-[11px]">Altered receipt rejected</div>
         </div>
 
         <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-4">
-          <div className="text-zinc-400 text-[11px] uppercase tracking-wider font-semibold">4. CI REGRESSION GATE</div>
-          <div className="mt-1.5 font-bold text-amber-400 text-sm">✓ MERGE BLOCKED</div>
-          <div className="mt-1 text-zinc-400 text-[11px]">314 passed • $0.0063 run spend</div>
+          <div className="text-zinc-400 text-[11px] uppercase tracking-wider font-semibold">4. CI REGRESSION TEST</div>
+          <div className="mt-1.5 font-bold text-amber-400 text-sm">✓ WEAKENED POLICY FAILS</div>
+          <div className="mt-1 text-zinc-400 text-[11px]">test_invoice_case_study.py • ~$0.0063 simulated spend</div>
         </div>
       </div>
     </section>
