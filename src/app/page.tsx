@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
+import { PlatformArchitecture } from '@/components/PlatformArchitecture';
 import { AdversarialBattery } from '@/components/AdversarialBattery';
 import { CliGateSection } from '@/components/CliGateSection';
 import { RuntimeObservability } from '@/components/RuntimeObservability';
@@ -105,6 +106,9 @@ export default function Home() {
         <section id="cli">
           <Hero />
         </section>
+
+        {/* Platform Architecture: Test · Enforce · Monitor · Prove */}
+        <PlatformArchitecture />
 
         {/* 1. 50-Test Battery */}
         <AdversarialBattery />

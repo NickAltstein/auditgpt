@@ -48,8 +48,8 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
               DEMO
             </span>
           </a>
-          <a href="#cli" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
-            CLI
+          <a href="#architecture" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
+            Architecture
           </a>
           <a href="#battery" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             50-Test Battery

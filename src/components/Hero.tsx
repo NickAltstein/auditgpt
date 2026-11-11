@@ -59,7 +59,7 @@ export function Hero() {
               transition={{ duration: 0.4 }}
               className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1 font-mono text-xs text-slate-700 shadow-2xs"
             >
-              <span className="font-semibold text-[#111827]">ASTI v1.1 Defense Gate</span>
+              <span className="font-semibold text-[#111827]">TEST · ENFORCE · MONITOR · PROVE</span>
               <span className="text-slate-300">|</span>
               <span>
                 Runtime Evidence Powered by{' '}
@@ -69,7 +69,7 @@ export function Hero() {
                   rel="noopener noreferrer"
                   className="font-semibold text-sky-600 underline decoration-sky-600/30 underline-offset-2 hover:text-sky-700"
                 >
-                  Receiptd (Ed25519 + Merkle)
+                  Receiptd (Ed25519)
                 </a>
               </span>
             </motion.div>
@@ -81,11 +81,10 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.05 }}
               className="text-5xl font-extrabold tracking-tight text-[#111827] sm:text-6xl leading-[1.08]"
             >
-              Adversarial pre-deployment gating for{' '}
+              Secure AI agents before they reach{' '}
               <span className="underline decoration-[#9EFFA9] decoration-2 underline-offset-8">
-                autonomous
-              </span>{' '}
-              agents.
+                production
+              </span>.
             </motion.h1>
 
             {/* Subheading */}
@@ -95,7 +94,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-base sm:text-lg text-[#475467] leading-relaxed max-w-xl"
             >
-              Catch recursive retry loops, destructive tool calls, prompt injections, and runaway token costs before merging to production.
+              AuditGPT stress-tests autonomous agents against adversarial attacks, enforces deterministic tool boundaries outside the model runtime, and produces cryptographically verifiable security evidence.
             </motion.p>
 
             {/* Uniform Single-Line Hero CTAs */}
@@ -106,22 +105,22 @@ export function Hero() {
               className="mt-8 flex flex-wrap items-center gap-3"
             >
               <a
-                href="#battery"
+                href="https://sandbox.auditgpt.ai/?scenario=prod-drop-table&step=1"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#9EFFA9] px-6 text-sm font-semibold text-[#111827] shadow-xs transition-colors hover:bg-[#86ef92]"
               >
-                <span>Explore 50-Test Battery</span>
+                <span className="h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
+                <span>Launch Live Simulator</span>
                 <span aria-hidden="true">→</span>
               </a>
 
               <a
-                href="https://sandbox.auditgpt.ai/?scenario=prod-drop-table&step=1"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#battery"
                 className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#111827] px-6 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-slate-800"
               >
-                <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                <span>Try Live Sandbox</span>
-                <span aria-hidden="true">→</span>
+                <span>Explore 50-Test Battery</span>
+                <span aria-hidden="true">↓</span>
               </a>
 
               <button
@@ -148,6 +147,9 @@ export function Hero() {
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-3.5 w-3.5 text-[#16a34a]" /> Local / CI Sandbox
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-[#16a34a]" /> OWASP AISVS Aligned
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-3.5 w-3.5 text-[#16a34a]" /> MIT Licensed
