@@ -129,7 +129,7 @@ export default function Home() {
                 const Icon = benefit.icon;
                 return (
                   <div key={idx} className="makro-card p-6 sm:p-8 space-y-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#111827] text-[#c8f135]">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#111827] text-[#9EFFA9]">
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="font-display text-lg font-bold text-[#111827]">
@@ -217,11 +217,11 @@ export default function Home() {
 
               {/* Team */}
               <div className="rounded-3xl border border-[#111827] bg-[#111827] p-6 sm:p-7 text-white relative flex flex-col justify-between shadow-xl">
-                <div className="absolute top-4 right-5 font-mono text-xs uppercase font-bold text-[#111827] bg-[#c8f135] px-3 py-1 rounded-full">
+                <div className="absolute top-4 right-5 font-mono text-xs uppercase font-bold text-[#111827] bg-[#9EFFA9] px-3 py-1 rounded-full">
                   Recommended
                 </div>
                 <div>
-                  <div className="font-mono text-xs font-semibold uppercase text-[#c8f135]">
+                  <div className="font-mono text-xs font-semibold uppercase text-[#9EFFA9]">
                     Team
                   </div>
                   <div className="mt-3 font-mono text-3xl font-bold text-white">
@@ -232,30 +232,30 @@ export default function Home() {
                   </p>
                   <ul className="mt-6 space-y-2.5 text-xs text-white/90">
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
+                      <CheckCircle2 className="h-4 w-4 text-[#9EFFA9]" />
                       <span>GitHub Action PR merge gate</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
+                      <CheckCircle2 className="h-4 w-4 text-[#9EFFA9]" />
                       <span>5 engineering seats included</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
+                      <CheckCircle2 className="h-4 w-4 text-[#9EFFA9]" />
                       <span>2,500 CI/CD stress-test runs / mo</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
+                      <CheckCircle2 className="h-4 w-4 text-[#9EFFA9]" />
                       <span>Runtime anomaly alerts (100k calls/mo)</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[#c8f135]" />
+                      <CheckCircle2 className="h-4 w-4 text-[#9EFFA9]" />
                       <span>OTel &amp; Langfuse trace connectors</span>
                     </li>
                   </ul>
                 </div>
                 <a
                   href="mailto:sales@auditgpt.ai?subject=Team%20Plan%20Inquiry"
-                  className="mt-6 block text-center rounded-full bg-[#c8f135] py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#bce628]"
+                  className="mt-6 block text-center rounded-full bg-[#9EFFA9] py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#86ef92]"
                 >
                   Deploy Team Gate
                 </a>
@@ -410,7 +410,7 @@ export default function Home() {
         <section className="py-20 px-4 sm:px-6">
           <div className="mx-auto max-w-4xl">
             <div className="rounded-3xl border border-[#111827] bg-[#111827] p-8 sm:p-12 text-center text-white shadow-xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-[#c8f135] mb-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-[#9EFFA9] mb-3">
                 <ShieldCheck className="h-3.5 w-3.5" /> Stop Shipping Broken Agent PRs
               </div>
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-white">
@@ -425,7 +425,7 @@ export default function Home() {
                   type="button"
                   onClick={scrollToTop}
                   aria-label="Scroll to top to run auditgpt test"
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#c8f135] px-6 py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#bce628] cursor-pointer"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#9EFFA9] px-6 py-2.5 font-mono text-xs font-bold text-[#111827] shadow-sm transition-all hover:bg-[#86ef92] cursor-pointer"
                 >
                   <Terminal className="h-4 w-4" />
                   <span>Run npx auditgpt test</span>
@@ -436,7 +436,7 @@ export default function Home() {
                   href="#ci-gate"
                   className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-2.5 font-mono text-xs font-semibold text-white transition-colors hover:bg-white/20"
                 >
-                  <GitPullRequest className="h-3.5 w-3.5 text-[#c8f135]" />
+                  <GitPullRequest className="h-3.5 w-3.5 text-[#9EFFA9]" />
                   <span>View GitHub Action Config</span>
                 </a>
               </div>

@@ -63,10 +63,10 @@ function SatelliteNodes() {
 
   return (
     <group ref={ringRef}>
-      {/* Node 1: Makro Lime Accent (#d9ff5c) */}
+      {/* Node 1: Makro Lime Accent (#9EFFA9) */}
       <mesh position={[3.2, 1.3, -0.8]}>
         <sphereGeometry args={[0.26, 32, 32]} />
-        <meshStandardMaterial color="#d9ff5c" roughness={0.2} metalness={0.1} />
+        <meshStandardMaterial color="#9EFFA9" roughness={0.2} metalness={0.1} />
       </mesh>
 
       {/* Node 2: Makro Sky Blue Accent (#b8deff) */}
@@ -107,7 +107,7 @@ export function MakroHeroCanvas() {
         <directionalLight position={[6, 8, 5]} intensity={2.4} color="#ffffff" />
         <directionalLight position={[-5, -4, -3]} intensity={1.2} color="#c0adff" />
         <pointLight position={[3, -2, 3]} intensity={1.5} color="#b8deff" />
-        <pointLight position={[-3, 2, 2]} intensity={1.2} color="#d9ff5c" />
+        <pointLight position={[-3, 2, 2]} intensity={1.2} color="#9EFFA9" />
         <MakroSphere />
         <SatelliteNodes />
       </Canvas>

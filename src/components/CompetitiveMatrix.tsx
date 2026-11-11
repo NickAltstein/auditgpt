@@ -101,7 +101,7 @@ export function CompetitiveMatrix() {
                 <th className="p-4 sm:p-5 text-[#58718a]">TestMu Assurance</th>
                 <th className="p-4 sm:p-5 text-[#58718a]">Promptfoo / DeepEval</th>
                 <th className="p-4 sm:p-5 text-[#58718a]">LangSmith / Langfuse</th>
-                <th className="p-4 sm:p-5 font-bold text-[#242426] bg-[#d9ff5c]/20 border-l border-r border-[#d9ff5c]/40">
+                <th className="p-4 sm:p-5 font-bold text-[#242426] bg-[#9EFFA9]/20 border-l border-r border-[#9EFFA9]/40">
                   AuditGPT.ai
                 </th>
               </tr>
@@ -113,7 +113,7 @@ export function CompetitiveMatrix() {
                   <td className="p-4 sm:p-5 text-[#58718a]">{row.testmu}</td>
                   <td className="p-4 sm:p-5 text-[#58718a]">{row.promptfoo}</td>
                   <td className="p-4 sm:p-5 text-[#58718a]">{row.langsmith}</td>
-                  <td className="p-4 sm:p-5 font-bold text-[#242426] bg-[#d9ff5c]/10 border-l border-r border-[#d9ff5c]/40">
+                  <td className="p-4 sm:p-5 font-bold text-[#242426] bg-[#9EFFA9]/10 border-l border-r border-[#9EFFA9]/40">
                     <span className="flex items-center gap-1.5">
                       <Check className="h-4 w-4 text-[#16a34a] shrink-0" />
                       <span>{row.auditgpt}</span>

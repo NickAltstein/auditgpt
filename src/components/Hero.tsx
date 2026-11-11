@@ -82,7 +82,7 @@ export function Hero() {
               className="text-5xl font-extrabold tracking-tight text-[#111827] sm:text-6xl leading-[1.08]"
             >
               Adversarial pre-deployment gating for{' '}
-              <span className="underline decoration-[#b5f22b] decoration-2 underline-offset-8">
+              <span className="underline decoration-[#9EFFA9] decoration-2 underline-offset-8">
                 autonomous
               </span>{' '}
               agents.
@@ -107,7 +107,7 @@ export function Hero() {
             >
               <a
                 href="#battery"
-                className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#b5f22b] px-6 text-sm font-semibold text-[#111827] shadow-xs transition-colors hover:bg-[#a6e222]"
+                className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#9EFFA9] px-6 text-sm font-semibold text-[#111827] shadow-xs transition-colors hover:bg-[#86ef92]"
               >
                 <span>Explore 50-Test Battery</span>
                 <span aria-hidden="true">→</span>
@@ -165,7 +165,7 @@ export function Hero() {
             onMouseLeave={handleMouseLeave}
           >
             {/* Background Soft Glows */}
-            <div className="pointer-events-none absolute -top-12 -left-12 h-72 w-72 rounded-full bg-[#c8f135]/20 blur-3xl" />
+            <div className="pointer-events-none absolute -top-12 -left-12 h-72 w-72 rounded-full bg-[#9EFFA9]/20 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-12 right-0 h-72 w-72 max-w-full rounded-full bg-[#b8deff]/30 blur-3xl" />
 
             {/* Tilt Container */}
@@ -189,7 +189,7 @@ export function Hero() {
 
                 <div className="mt-4 space-y-2 font-mono text-xs text-white/90">
                   <div className="text-white/50">$ npx auditgpt test --endpoint http://localhost:8000/agent</div>
-                  <div className="text-[#c8f135] font-semibold">⚡ ASTI v1.1 Battery [50 Tests] Running...</div>
+                  <div className="text-[#9EFFA9] font-semibold">⚡ ASTI v1.1 Battery [50 Tests] Running...</div>
                   <div className="mt-4 space-y-1.5 font-mono text-xs">
                     <div className="flex items-center justify-between text-slate-300">
                       <span>• Loops &amp; Error Cascades</span>

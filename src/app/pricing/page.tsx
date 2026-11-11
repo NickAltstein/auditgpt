@@ -150,7 +150,7 @@ export default function PricingPage() {
             </div>
             <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#111827]">
               Predictable stress-testing for{' '}
-              <span className="underline decoration-[#c8f135] decoration-4 underline-offset-6">
+              <span className="underline decoration-[#9EFFA9] decoration-4 underline-offset-6">
                 autonomous agents.
               </span>
             </h1>
@@ -171,7 +171,7 @@ export default function PricingPage() {
                 }`}
               >
                 {tier.isPopular && (
-                  <div className="absolute -top-3 right-6 font-mono text-[10px] uppercase font-bold text-[#111827] bg-[#c8f135] px-3 py-0.5 rounded-full shadow-xs">
+                  <div className="absolute -top-3 right-6 font-mono text-[10px] uppercase font-bold text-[#111827] bg-[#9EFFA9] px-3 py-0.5 rounded-full shadow-xs">
                     Most Popular
                   </div>
                 )}
@@ -180,7 +180,7 @@ export default function PricingPage() {
                   <div className="flex items-center justify-between">
                     <h3 className="font-display text-xl font-bold">{tier.name}</h3>
                   </div>
-                  <div className={`text-[11px] font-mono mt-1 ${tier.isPopular ? 'text-[#c8f135]' : 'text-[#667085]'}`}>
+                  <div className={`text-[11px] font-mono mt-1 ${tier.isPopular ? 'text-[#9EFFA9]' : 'text-[#667085]'}`}>
                     {tier.badge}
                   </div>
 
@@ -204,7 +204,7 @@ export default function PricingPage() {
                       <div key={fIdx} className="flex items-start gap-2">
                         <CheckCircle2
                           className={`h-4 w-4 shrink-0 mt-0.5 ${
-                            tier.isPopular ? 'text-[#c8f135]' : 'text-[#16a34a]'
+                            tier.isPopular ? 'text-[#9EFFA9]' : 'text-[#16a34a]'
                           }`}
                         />
                         <span className={tier.isPopular ? 'text-white/90' : 'text-[#111827]'}>{feature}</span>
@@ -217,7 +217,7 @@ export default function PricingPage() {
                   href={tier.ctaHref}
                   className={`mt-8 block text-center rounded-full py-3 font-mono text-xs font-bold transition-all ${
                     tier.isPopular
-                      ? 'bg-[#c8f135] text-[#111827] hover:bg-[#bce628] shadow-sm'
+                      ? 'bg-[#9EFFA9] text-[#111827] hover:bg-[#86ef92] shadow-sm'
                       : 'border border-[#e2e8f0] bg-[#f8fafc] text-[#111827] hover:bg-white hover:border-[#cbd5e1]'
                   }`}
                 >
@@ -244,7 +244,7 @@ export default function PricingPage() {
                   <tr className="border-b border-[#e2e8f0] bg-[#f8fafc]">
                     <th className="p-4 sm:p-5 text-[#667085] uppercase w-1/3">Feature Dimension</th>
                     <th className="p-4 sm:p-5 text-[#111827] text-center w-1/6">Free CLI</th>
-                    <th className="p-4 sm:p-5 font-bold text-[#111827] bg-[#c8f135]/20 text-center w-1/6 border-l border-r border-[#c8f135]/40">
+                    <th className="p-4 sm:p-5 font-bold text-[#111827] bg-[#9EFFA9]/20 text-center w-1/6 border-l border-r border-[#9EFFA9]/40">
                       Team ($499)
                     </th>
                     <th className="p-4 sm:p-5 text-[#111827] text-center w-1/6">Growth ($2,499)</th>
@@ -273,7 +273,7 @@ export default function PricingPage() {
                               row.free
                             )}
                           </td>
-                          <td className="p-4 sm:p-5 text-center font-bold text-[#111827] bg-[#c8f135]/10 border-l border-r border-[#c8f135]/40">
+                          <td className="p-4 sm:p-5 text-center font-bold text-[#111827] bg-[#9EFFA9]/10 border-l border-r border-[#9EFFA9]/40">
                             {typeof row.team === 'boolean' ? (
                               row.team ? (
                                 <Check className="h-4 w-4 text-[#16a34a] mx-auto" />
@@ -317,7 +317,7 @@ export default function PricingPage() {
 
           {/* Quick Install Banner */}
           <div id="install" className="mt-20 rounded-3xl bg-[#111827] p-8 sm:p-12 text-white text-center shadow-xl">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 font-mono text-xs font-semibold text-[#c8f135] mb-3">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 font-mono text-xs font-semibold text-[#9EFFA9] mb-3">
               <Terminal className="h-3.5 w-3.5" /> Start Stress-Testing in 30 Seconds
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-bold">
@@ -327,13 +327,13 @@ export default function PricingPage() {
               Run the full ASTI v1.1 50-test battery locally against your agent endpoint:
             </p>
             <div className="mt-6 mx-auto max-w-md flex items-center justify-between rounded-full border border-white/20 bg-white/10 p-2 backdrop-blur-md">
-              <div className="font-mono text-xs text-[#c8f135] px-3">
+              <div className="font-mono text-xs text-[#9EFFA9] px-3">
                 npx auditgpt test --endpoint http://localhost:8000
               </div>
               <button
                 type="button"
                 onClick={copyCli}
-                className="rounded-full bg-[#c8f135] px-4 py-1.5 font-mono text-xs font-bold text-[#111827] hover:bg-[#bce628]"
+                className="rounded-full bg-[#9EFFA9] px-4 py-1.5 font-mono text-xs font-bold text-[#111827] hover:bg-[#86ef92]"
               >
                 Copy
               </button>

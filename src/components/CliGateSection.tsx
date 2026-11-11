@@ -131,7 +131,7 @@ export function CliGateSection() {
               type="button"
               onClick={copyCliCommand}
               aria-label="Copy CLI command"
-              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-[#ebeff5] px-4 py-1.5 font-mono text-xs font-semibold text-[#242426] hover:bg-[#d9ff5c] cursor-pointer"
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-[#ebeff5] px-4 py-1.5 font-mono text-xs font-semibold text-[#242426] hover:bg-[#9EFFA9] cursor-pointer"
             >
               <Copy className="h-3.5 w-3.5" />
               <span>Copy</span>
@@ -178,7 +178,7 @@ export function CliGateSection() {
               type="button"
               onClick={copyActiveCode}
               aria-label="Copy active file content"
-              className="flex min-h-[36px] items-center gap-1.5 rounded-lg border border-[rgba(36,36,38,0.08)] bg-white px-3 sm:px-3.5 py-1.5 text-xs font-mono text-[#242426] transition-colors hover:bg-[#d9ff5c] cursor-pointer"
+              className="flex min-h-[36px] items-center gap-1.5 rounded-lg border border-[rgba(36,36,38,0.08)] bg-white px-3 sm:px-3.5 py-1.5 text-xs font-mono text-[#242426] transition-colors hover:bg-[#9EFFA9] cursor-pointer"
             >
               {copiedCode ? <Check className="h-3.5 w-3.5 text-[#16a34a]" /> : <Copy className="h-3.5 w-3.5" />}
               <span>{copiedCode ? 'Copied' : 'Copy'}</span>

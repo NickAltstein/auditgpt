@@ -202,7 +202,7 @@ export function AdversarialBattery() {
                     : 'bg-white border border-[rgba(36,36,38,0.08)] text-[#475467] hover:text-[#242426]'
                 }`}
               >
-                <Icon className="h-3.5 w-3.5" style={{ color: isSelected ? '#d9ff5c' : cat.accent }} />
+                <Icon className="h-3.5 w-3.5" style={{ color: isSelected ? '#9EFFA9' : cat.accent }} />
                 <span>{cat.name.split('&')[0].trim()}</span>
                 <span className={`rounded-full px-2 py-0.5 text-xs font-mono font-bold ${isSelected ? 'bg-white/20 text-white' : 'bg-[#ebeff5] text-[#242426]'}`}>
                   {cat.range}

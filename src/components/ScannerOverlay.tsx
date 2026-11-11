@@ -75,7 +75,7 @@ export function ScannerOverlay({ isLoading, targetQuery }: ScannerOverlayProps) 
           {/* Header HUD */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[rgba(36,36,38,0.08)] pb-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#242426] text-[#d9ff5c]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#242426] text-[#9EFFA9]">
                 <Activity className="h-5 w-5 animate-pulse" />
               </div>
               <div>
@@ -117,7 +117,7 @@ export function ScannerOverlay({ isLoading, targetQuery }: ScannerOverlayProps) 
                   transition={{ duration: 0.2 }}
                   className={`flex items-start gap-2.5 ${
                     isCurrent
-                      ? 'text-[#d9ff5c] font-semibold'
+                      ? 'text-[#9EFFA9] font-semibold'
                       : isCompleted
                       ? 'text-white'
                       : 'text-white/30'
@@ -125,9 +125,9 @@ export function ScannerOverlay({ isLoading, targetQuery }: ScannerOverlayProps) 
                 >
                   <span className="mt-0.5">
                     {isCompleted ? (
-                      <CheckCircle2 className="h-3.5 w-3.5 text-[#d9ff5c]" />
+                      <CheckCircle2 className="h-3.5 w-3.5 text-[#9EFFA9]" />
                     ) : isCurrent ? (
-                      <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#d9ff5c] border-t-transparent" />
+                      <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#9EFFA9] border-t-transparent" />
                     ) : (
                       <span className="inline-block h-3.5 w-3.5 rounded-full border border-white/20" />
                     )}

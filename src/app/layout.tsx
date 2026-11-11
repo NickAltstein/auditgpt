@@ -65,7 +65,7 @@ export default function RootLayout({
         <JsonLd type="Organization" data={AuditGPTOrganizationSchema} />
         <JsonLd type="SoftwareApplication" data={AuditGPTSoftwareSchema} />
       </head>
-      <body className="min-h-screen overflow-x-clip bg-[#f4f6f9] text-[#111827] antialiased selection:bg-[#c8f135] selection:text-[#111827]">
+      <body className="min-h-screen overflow-x-clip bg-[#f4f6f9] text-[#111827] antialiased selection:bg-[#9EFFA9] selection:text-[#111827]">
         <Providers>
           {children}
           <CookieConsent />

@@ -13,13 +13,13 @@
   --color-border: rgba(36, 36, 38, 0.08);
   --color-destructive: #e05243;
   --color-accent-foreground: #242426;
-  --color-accent: #d9ff5c;
+  --color-accent: #9EFFA9;
   --color-muted-foreground: #58718a;
   --color-muted: #f3f5f9;
   --color-secondary-foreground: #242426;
   --color-secondary: #ffffff;
   --color-primary-foreground: #242426;
-  --color-primary: #d9ff5c;
+  --color-primary: #9EFFA9;
   --color-popover-foreground: #242426;
   --color-popover: #ffffff;
   --color-card-foreground: #242426;
@@ -72,13 +72,13 @@ html, body {
 }
 
 .makro-btn-lime {
-  background-color: #d9ff5c;
+  background-color: #9EFFA9;
   color: #242426;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 .makro-btn-lime:hover {
-  background-color: #cbfa42;
+  background-color: #86ef92;
   transform: translateY(-1px);
 }
 

@@ -40,7 +40,7 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
             className="inline-flex min-h-[40px] items-center gap-1.5 py-2 whitespace-nowrap font-semibold text-[#111827] transition-colors hover:text-slate-900"
           >
             Live Sandbox
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#b5f22b] px-2 py-0.5 font-mono text-xs font-bold text-[#111827]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#9EFFA9] px-2 py-0.5 font-mono text-xs font-bold text-[#111827]">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-slate-900 opacity-75"></span>
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-slate-900"></span>
@@ -75,7 +75,7 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
         <div className="flex shrink-0 items-center">
           <a
             href="mailto:sales@auditgpt.ai?subject=Team%20Suite%20Inquiry"
-            className="inline-flex min-h-[38px] items-center gap-1.5 whitespace-nowrap rounded-full bg-[#b5f22b] px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-[#111827] shadow-2xs transition-transform hover:scale-[1.01]"
+            className="inline-flex min-h-[38px] items-center gap-1.5 whitespace-nowrap rounded-full bg-[#9EFFA9] hover:bg-[#86ef92] px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-[#111827] shadow-2xs transition-all hover:scale-[1.01]"
           >
             <span className="hidden xs:inline sm:inline">Deploy Gate</span>
             <span className="xs:hidden sm:hidden">Deploy</span>
