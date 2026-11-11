@@ -12,7 +12,7 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
     <header className="sticky top-4 z-50 mx-auto max-w-6xl px-3 sm:px-4">
       <nav className="flex items-center justify-between gap-3 sm:gap-6 rounded-full border border-slate-200/80 bg-white/95 px-3.5 py-2 sm:px-5 sm:py-2.5 shadow-sm backdrop-blur-md">
         {/* Brand Lockup */}
-        <a href="#" className="flex shrink-0 items-center gap-2.5 sm:gap-3">
+        <a href="/" className="flex shrink-0 items-center gap-2.5 sm:gap-3">
           <Image
             src="/logo-shield.png"
             alt="AuditGPT Shield"
@@ -47,6 +47,9 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
               </span>
               DEMO
             </span>
+          </a>
+          <a href="/receiptd" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
+            Receiptd
           </a>
           <a href="#architecture" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             Architecture
