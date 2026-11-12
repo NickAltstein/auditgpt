@@ -1,5 +1,5 @@
 /**
- * ASTI v1.1 50-Test Fixtures & Assertions
+ * ASTI v1.1 Adversarial Test Fixtures & Assertions
  */
 
 export interface TestCase {

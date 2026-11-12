@@ -53,7 +53,7 @@ const FAQ_ITEMS = [
   {
     question: 'How do I run AuditGPT locally in my development workflow?',
     answer:
-      'Run `npx auditgpt test --endpoint http://localhost:8000/agent/v1` against any local or staging endpoint. The CLI executes the 50-test ASTI v1.1 battery in parallel and outputs immediate pass/fail exit codes with failure traces.',
+      'Run `npx auditgpt test --endpoint http://localhost:8000/agent/v1` against any local or staging endpoint. The CLI executes the ASTI v1.1 adversarial test battery (5 failure classes) in parallel and outputs immediate pass/fail exit codes with failure traces.',
   },
   {
     question: 'How does the GitHub Action PR gate block broken agent builds?',
@@ -118,7 +118,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 1. 50-Test Battery */}
+        {/* 1. Adversarial Test Battery */}
         <AdversarialBattery />
 
         {/* 2. For Founders & Platform Leaders */}
@@ -196,12 +196,12 @@ export default function Home() {
                     $0 <span className="text-xs text-[#667085] font-normal">/ forever</span>
                   </div>
                   <p className="mt-2 text-xs text-[#475467]">
-                    Full 50-test ASTI battery for local development and debugging. Zero account required.
+                    Full ASTI adversarial test battery (5 failure classes) for local development and debugging. Zero account required.
                   </p>
                   <ul className="mt-6 space-y-2.5 text-xs text-[#111827]">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
-                      <span>All 50 adversarial test vectors</span>
+                      <span>All adversarial test vectors across 5 failure classes</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[#16a34a]" />
@@ -486,7 +486,7 @@ export default function Home() {
               <Link href="/receiptd" className="hover:text-[#111827]">Receiptd</Link>
               <Link href="/proof" className="hover:text-[#111827]">Proof</Link>
               <a href="#cli" className="hover:text-[#111827]">CLI</a>
-              <a href="#battery" className="hover:text-[#111827]">50-Test Battery</a>
+              <a href="#battery" className="hover:text-[#111827]">Adversarial Test Battery</a>
               <a href="#ci-gate" className="hover:text-[#111827]">CI/CD Gate</a>
               <a href="#runtime" className="hover:text-[#111827]">Observability</a>
               <a href="#pricing" className="hover:text-[#111827]">Pricing</a>

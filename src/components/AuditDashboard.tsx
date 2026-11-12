@@ -119,7 +119,7 @@ ${report.pillars.map((p) => `- **${p.name} (${p.weight}%):** \`${p.score}/100\`\
 
               <h2 className="mt-3 font-display text-xl sm:text-2xl font-bold text-[#242426]">
                 {isPassing
-                  ? 'All 50 adversarial tests passed. Agent resilience verified for deployment.'
+                  ? 'All adversarial tests passed in this run.'
                   : 'Critical failures detected: Recursive loops or injection vulnerabilities exceed thresholds.'}
               </h2>
 
@@ -141,7 +141,7 @@ ${report.pillars.map((p) => `- **${p.name} (${p.weight}%):** \`${p.score}/100\`\
           <span className="flex items-center gap-1.5">
             <Flame className="h-4 w-4 text-[#e05243]" /> Economic Telemetry
           </span>
-          <span className="text-[#58718a]">50-Test Aggregate</span>
+          <span className="text-[#58718a]">Battery Aggregate</span>
         </div>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-4">

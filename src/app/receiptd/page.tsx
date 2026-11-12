@@ -90,7 +90,7 @@ const PRIMITIVES = [
   {
     icon: Hash,
     tag: "PRIMITIVE 02",
-    title: "RFC-8785 Canonical JSON Serialization",
+    title: "Canonical JSON Serialization (sorted keys)",
     description:
       "Strict byte-for-byte serialization standardizes JSON spacing, dictionary key sorting, and IEEE 754 float precision. Prevents semantic whitespace tampering from altering cryptographic hashes.",
   },
@@ -169,7 +169,7 @@ export default function ReceiptdPage() {
               <ul className={styles.trust} aria-label="Technical capabilities">
                 <li>&lt;2ms hook latency</li>
                 <li>Fail-closed (exit 2)</li>
-                <li>Ed25519 + RFC-8785</li>
+                <li>Ed25519 + canonical JSON</li>
                 <li>Offline Merkle proof</li>
               </ul>
             </div>
@@ -292,7 +292,7 @@ export default function ReceiptdPage() {
 
           <p className="text-sm text-zinc-600 max-w-2xl leading-relaxed mb-6">
             Every decision—whether allowed, denied, or requiring human escalation—produces an immutable
-            JSON object canonicalized under RFC-8785 and signed with Ed25519. Modifying any field breaks
+            JSON object canonicalized as sorted-key JSON and signed with Ed25519. Modifying any field breaks
             the cryptographic signature and hash chain.
           </p>
 
@@ -300,7 +300,7 @@ export default function ReceiptdPage() {
             <div className="lg:col-span-7 bg-[#10231a] border border-[#244b34] rounded-xl overflow-hidden shadow-md">
               <div className="px-4 py-2.5 border-b border-[#32503e] bg-[#0b1a13] flex items-center justify-between font-mono text-xs text-zinc-300">
                 <span>receipt_INV_2026_8891.json</span>
-                <span className="text-[#9effa9]">✓ Canonical RFC-8785</span>
+                <span className="text-[#9effa9]">✓ Canonical JSON</span>
               </div>
               <pre className="p-4 text-xs font-mono text-emerald-100 overflow-x-auto leading-relaxed">
                 <code>{preview.rawPayload}</code>

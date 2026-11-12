@@ -12,7 +12,7 @@ program
 
 program
   .command('test')
-  .description('Run the ASTI v1.1 50-test adversarial battery')
+  .description('Run the ASTI v1.1 adversarial test battery across 5 failure classes')
   .option('-e, --endpoint <url>', 'Agent endpoint to test')
   .option('-c, --config <path>', 'Path to auditgpt.config.yaml', 'auditgpt.config.yaml')
   .option('--demo', 'Run in zero-config demo mode against reference agent')

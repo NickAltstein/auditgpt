@@ -176,7 +176,7 @@ export function AdversarialBattery() {
             ASTI v1.1 Standard &bull; OWASP AISVS 1.0 Traceable
           </div>
           <h2 className="mt-2 font-display text-2xl sm:text-4xl text-[#242426] font-bold">
-            The 50-Test Initial Adversarial Battery
+            The Initial Adversarial Test Battery
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-xs sm:text-sm text-[#58718a]">
             Standardized failure vectors targeting the 5 breakdown modes of autonomous multi-step agents in production, mapped to OWASP Artificial Intelligence Security Verification Standard requirements.

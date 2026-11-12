@@ -55,7 +55,7 @@ export function Navbar({ onScrollToTerminal }: NavbarProps) {
             Architecture
           </a>
           <a href="#battery" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
-            50-Test Battery
+            Test Battery
           </a>
           <a href="#ci-gate" className="min-h-[40px] inline-flex items-center py-2 whitespace-nowrap transition-colors hover:text-[#111827]">
             CI/CD Gate

@@ -15,7 +15,7 @@ const TIERS = [
     ctaHref: '#install',
     isPopular: false,
     features: [
-      'Full 50-test ASTI v1.1 battery',
+      'Full ASTI v1.1 adversarial test battery',
       'Unlimited local terminal runs',
       'Interactive ANSI test execution report',
       'Local Markdown & SARIF export',
@@ -92,7 +92,7 @@ const COMPARISON_MATRIX = [
   {
     category: 'Core Adversarial Testing',
     features: [
-      { name: 'ASTI v1.1 Standard 50-Test Battery', free: true, team: true, growth: true, ent: true },
+      { name: 'ASTI v1.1 Standard Adversarial Test Battery', free: true, team: true, growth: true, ent: true },
       { name: 'Infinite Loop & 500 Error Cascade Traps', free: true, team: true, growth: true, ent: true },
       { name: 'Destructive Tool & Permission Escalation', free: true, team: true, growth: true, ent: true },
       { name: 'Multi-Turn Context & State Degradation', free: true, team: true, growth: true, ent: true },
@@ -324,7 +324,7 @@ export default function PricingPage() {
               Zero configuration required.
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm text-white/80">
-              Run the full ASTI v1.1 50-test battery locally against your agent endpoint:
+              Run the full ASTI v1.1 adversarial test battery locally against your agent endpoint:
             </p>
             <div className="mt-6 mx-auto max-w-md flex items-center justify-between rounded-full border border-white/20 bg-white/10 p-2 backdrop-blur-md">
               <div className="font-mono text-xs text-[#9EFFA9] px-3">

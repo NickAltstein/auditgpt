@@ -119,7 +119,7 @@ export function Hero() {
                 href="#battery"
                 className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full bg-[#111827] px-6 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-slate-800"
               >
-                <span>Explore 50-Test Battery</span>
+                <span>Explore the Test Battery</span>
                 <span aria-hidden="true">↓</span>
               </a>
 
@@ -191,7 +191,7 @@ export function Hero() {
 
                 <div className="mt-4 space-y-2 font-mono text-xs text-white/90">
                   <div className="text-white/50">$ npx auditgpt test --endpoint http://localhost:8000/agent</div>
-                  <div className="text-[#9EFFA9] font-semibold">⚡ ASTI v1.1 Battery [50 Tests] Running...</div>
+                  <div className="text-[#9EFFA9] font-semibold">⚡ ASTI v1.1 Adversarial Battery Running...</div>
                   <div className="mt-4 space-y-1.5 font-mono text-xs">
                     <div className="flex items-center justify-between text-slate-300">
                       <span>• Loops &amp; Error Cascades</span>
@@ -240,7 +240,7 @@ export function Hero() {
                     Status: 🟢 **PASSED** &bull; Composite Score: `100/100` &bull; Max task cost: `$0.0084`
                   </div>
                   <div className="pt-1 text-xs text-[#475467]">
-                    Zero recursive retry loops detected. All 50 adversarial vectors verified (50/50 passed).
+                    Zero recursive retry loops detected. All adversarial vectors in this demo run passed.
                   </div>
                 </div>
               </div>

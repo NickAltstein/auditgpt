@@ -1,6 +1,6 @@
 /**
  * ASTI v1.1 Model Benchmark Comparison Runner
- * Benchmarks Llama 3.3 70B, Qwen 2.5 72B, and Mistral Large across 50 adversarial vectors.
+ * Benchmarks Llama 3.3 70B, Qwen 2.5 72B, and Mistral Large across the ASTI adversarial vectors.
  */
 
 import * as fs from "fs";
