@@ -44,7 +44,7 @@ npx auditgpt test --endpoint http://localhost:8000/agent/v1 --max-cost-per-task 
 
 ## 🔬 Executable Test Matrix
 
-AuditGPT executes the ASTI v1.1 deterministic 50-test battery across 5 failure classes (Loops & Cascades, Economics, Tools, State, and Security):
+AuditGPT executes the ASTI v1.1 adversarial test battery across 5 failure classes (Loops & Cascades, Economics, Tools, State, and Security):
 
 | Category | Vector ID | Adversarial Trigger Scenario | Deterministic Assertion |
 | :--- | :---: | :--- | :--- |
