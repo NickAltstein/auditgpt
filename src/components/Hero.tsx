@@ -153,7 +153,7 @@ export function Hero() {
                 <CheckCircle2 className="h-3.5 w-3.5 text-[#16a34a]" /> OWASP AISVS Aligned
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-[#16a34a]" /> MIT Licensed
+                <CheckCircle2 className="h-3.5 w-3.5 text-[#16a34a]" /> Fail-Closed Gates
               </span>
             </motion.div>
           </div>

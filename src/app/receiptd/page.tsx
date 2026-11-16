@@ -606,7 +606,7 @@ receiptd card --last 1`}</code>
 
       {/* Footer */}
       <footer className={styles.footer}>
-        <span>AuditGPT.ai · MIT-licensed CLI &amp; Open-Source Architecture</span>
+        <span>Receiptd · Open-Source Runtime Gate under MIT License</span>
         <nav aria-label="Footer navigation">
           <a href={demo} target="_blank" rel="noopener noreferrer">
             Live sandbox <ArrowUpRight size={14} aria-hidden="true" />

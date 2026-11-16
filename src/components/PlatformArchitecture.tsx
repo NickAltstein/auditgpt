@@ -15,7 +15,7 @@ const ARCHITECTURE_PILLARS = [
     accentBg: 'bg-blue-500/10',
     borderColor: 'border-blue-200',
     description:
-      'Multi-step autonomous agent stress testing across 50 standardized failure vectors mapped to OWASP AISVS 1.0 requirements. Runs locally via CLI or in CI/CD PR merge gates.',
+      'Multi-step autonomous agent stress testing across 15 multi-turn adversarial harnesses across 5 failure classes plus 35 single-turn probes, mapped to OWASP AISVS 1.0 requirements. Runs locally via CLI or in CI/CD PR merge gates.',
     deliverable: 'Automated Pass/Fail PR Gate · SARIF & ANSI Reports · Zero-Egress Runner',
   },
   {
