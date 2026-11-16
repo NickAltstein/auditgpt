@@ -39,7 +39,7 @@ export async function generateReports(
 
 function renderTerminalReport(summary: RunSummary, gateResult: GateEvaluationResult): void {
   if (summary.isDemo) {
-    console.log('\n' + chalk.bold.yellow('⚡ AuditGPT ASTI v1.1 Defense Gate Results (DEMO MODE)'));
+    console.log('\n' + chalk.bold.yellow('⚡ AuditGPT Defense Gate Results (DEMO MODE)'));
     console.log(chalk.gray('═'.repeat(65)));
     console.log(chalk.yellow.bold('  ⚠ SIMULATED, no tests executed against a live agent.'));
     console.log(chalk.gray('═'.repeat(65)));
@@ -61,7 +61,7 @@ function renderTerminalReport(summary: RunSummary, gateResult: GateEvaluationRes
     return;
   }
 
-  console.log('\n' + chalk.bold.magenta('⚡ AuditGPT ASTI v1.1 Defense Gate Results'));
+  console.log('\n' + chalk.bold.magenta('⚡ AuditGPT Defense Gate Results'));
   console.log(chalk.gray('═'.repeat(65)));
 
   console.log(chalk.bold('\nSuite Performance:'));

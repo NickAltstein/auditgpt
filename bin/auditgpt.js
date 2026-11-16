@@ -18794,7 +18794,7 @@ async function generateReports(summary, gateResult, reporting) {
 }
 function renderTerminalReport(summary, gateResult) {
   if (summary.isDemo) {
-    console.log("\n" + source_default.bold.yellow("\u26A1 AuditGPT ASTI v1.1 Defense Gate Results (DEMO MODE)"));
+    console.log("\n" + source_default.bold.yellow("\u26A1 AuditGPT Defense Gate Results (DEMO MODE)"));
     console.log(source_default.gray("\u2550".repeat(65)));
     console.log(source_default.yellow.bold("  \u26A0 SIMULATED, no tests executed against a live agent."));
     console.log(source_default.gray("\u2550".repeat(65)));
@@ -18812,7 +18812,7 @@ function renderTerminalReport(summary, gateResult) {
     console.log(source_default.gray("\u2550".repeat(65)));
     return;
   }
-  console.log("\n" + source_default.bold.magenta("\u26A1 AuditGPT ASTI v1.1 Defense Gate Results"));
+  console.log("\n" + source_default.bold.magenta("\u26A1 AuditGPT Defense Gate Results"));
   console.log(source_default.gray("\u2550".repeat(65)));
   console.log(source_default.bold("\nSuite Performance:"));
   for (const s of summary.suites) {

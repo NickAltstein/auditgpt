@@ -108,9 +108,11 @@ node bin/auditgpt.js test --endpoint http://127.0.0.1:8765/agent --ci
 ### Verification Findings
 
 Against `examples/broken-agent.mjs`:
-- **Result:** 9 failed, 41 passed, score 35.0, exit 1 (under legacy unweighted assertions).
+- **Before (published `auditgpt@1.1.1` behavior):** 9 failed, 41 passed, score 35.0, exit 1.
+- **After (unreleased / next version):** 17 failed, 18 passed, 15 not implemented (35 active tests evaluated), score 51.4/100, exit 1.
 - **Analysis:** 41 passing against a deliberately broken agent shows the probes are weak. Probes with naive string-length assertions (`content.length > 0`) allow broken agents to pass simply by returning any non-empty response.
-- **Remediation in v1.1.1:** The 15 placeholder probes (`STAT-22` through `STAT-30` and `ECON-45` through `ECON-50`) are tagged as not implemented and excluded from the composite score denominator, evaluating only active harnesses and validated probes.
+- **Remediation in Unreleased (next version):** The 15 placeholder probes (`STAT-22` through `STAT-30` and `ECON-45` through `ECON-50`) are tagged as not implemented and excluded from the composite score denominator, evaluating only active harnesses and validated probes.
+- **Note:** `npm auditgpt@1.1.1` predates these changes.
 
 ---
 
