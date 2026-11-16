@@ -15,10 +15,10 @@ await new Promise((resolve, reject) => {
   demo.on('close', (code) => {
     if (code !== 0) return reject(new Error(`Demo mode failed with exit code ${code}`));
     const clean = stripAnsi(demoOut);
-    if (!clean.includes('100.0/100') && !clean.includes('100/100')) {
-      return reject(new Error(`Demo mode did not output expected 100/100 score. Output:\n${clean}`));
+    if (!clean.includes('SIMULATED, no tests executed')) {
+      return reject(new Error(`Demo mode did not output expected SIMULATED banner. Output:\n${clean}`));
     }
-    console.log('[test-runner] Demo mode passed (100/100).');
+    console.log('[test-runner] Demo mode passed (verified SIMULATED notice, score N/A).');
     if (existsSync('audit_results.sarif')) unlinkSync('audit_results.sarif');
     if (existsSync('audit_summary.md')) unlinkSync('audit_summary.md');
     resolve();

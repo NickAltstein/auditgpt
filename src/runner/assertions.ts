@@ -7,12 +7,20 @@ export function evaluateGates(
   gates: AuditGPTConfig['gates'],
   bounds: AuditGPTConfig['bounds']
 ): GateEvaluationResult {
+  if (summary.isDemo) {
+    return {
+      passed: true,
+      reasons: ['Demo mode: SIMULATED, no tests executed against a live agent.'],
+      circuitBreakerTriggered: false,
+    };
+  }
+
   const reasons: string[] = [];
   let passed = true;
   let circuitBreakerTriggered = false;
 
   // 1. Overall Score Threshold
-  if (summary.overallScore < gates.pass_threshold) {
+  if (summary.overallScore !== null && summary.overallScore < gates.pass_threshold) {
     passed = false;
     reasons.push(
       `Composite score ${summary.overallScore.toFixed(1)}% is below gate threshold (${gates.pass_threshold}%).`

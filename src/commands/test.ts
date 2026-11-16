@@ -97,8 +97,11 @@ export async function runTestCommand(options: CliOptions) {
     }
 
     // Interactive mode summary
-    if (gateResult.passed) {
-      console.log(chalk.green.bold('\n✓ GATE PASSED') + `  Score: ${summary.overallScore.toFixed(1)}%`);
+    if (summary.isDemo) {
+      console.log(chalk.yellow.bold('\n⚠ DEMO MODE COMPLETE') + '  Score: N/A (SIMULATED, no tests executed)');
+    } else if (gateResult.passed) {
+      const scoreStr = summary.overallScore !== null ? `${summary.overallScore.toFixed(1)}%` : 'N/A';
+      console.log(chalk.green.bold('\n✓ GATE PASSED') + `  Score: ${scoreStr}`);
     } else {
       console.log(chalk.red.bold('\n✗ GATE FAILED'));
       gateResult.reasons.forEach((r) => console.log(chalk.red(`  • ${r}`)));

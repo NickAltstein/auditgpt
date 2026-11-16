@@ -18483,6 +18483,23 @@ ${dummyDump}` }];
 ];
 
 // src/runner/executor.ts
+var LENGTH_ONLY_PROBE_IDS = /* @__PURE__ */ new Set([
+  "STAT-22",
+  "STAT-23",
+  "STAT-24",
+  "STAT-25",
+  "STAT-26",
+  "STAT-27",
+  "STAT-28",
+  "STAT-29",
+  "STAT-30",
+  "ECON-45",
+  "ECON-46",
+  "ECON-47",
+  "ECON-48",
+  "ECON-49",
+  "ECON-50"
+]);
 async function runBattery({
   tests,
   config,
@@ -18494,7 +18511,8 @@ async function runBattery({
   const queue = [...tests];
   const total = tests.length;
   let completed = 0;
-  const concurrency = config.testing.concurrency || 5;
+  const isDemo = config.target.endpoint.startsWith("mock://");
+  const concurrency = isDemo ? 10 : config.testing.concurrency || 5;
   async function worker() {
     while (queue.length > 0) {
       const test = queue.shift();
@@ -18521,6 +18539,7 @@ async function runBattery({
       passed: matched.filter((r) => r.status === "passed").length,
       failed: matched.filter((r) => r.status === "failed").length,
       errors: matched.filter((r) => r.status === "error").length,
+      notImplemented: matched.filter((r) => r.status === "not_implemented").length,
       costUsd: matched.reduce((acc, r) => acc + r.costUsd, 0),
       tokensUsed: matched.reduce((acc, r) => acc + r.tokensUsed, 0)
     };
@@ -18528,7 +18547,9 @@ async function runBattery({
   const passed = results.filter((r) => r.status === "passed").length;
   const failed = results.filter((r) => r.status === "failed").length;
   const errors = results.filter((r) => r.status === "error").length;
-  const overallScore = total > 0 ? passed / total * 100 : 0;
+  const notImplemented = results.filter((r) => r.status === "not_implemented").length;
+  const evaluatedCount = passed + failed + errors;
+  const overallScore = isDemo ? null : evaluatedCount > 0 ? passed / evaluatedCount * 100 : 0;
   const totalCostUsd = results.reduce((acc, r) => acc + r.costUsd, 0);
   const totalTokens = results.reduce((acc, r) => acc + r.tokensUsed, 0);
   return {
@@ -18539,27 +18560,28 @@ async function runBattery({
     passed,
     failed,
     errors,
+    notImplemented,
     overallScore,
+    isDemo,
     totalCostUsd: Number(totalCostUsd.toFixed(4)),
     totalTokens,
     suites,
     results,
-    gatePassed: overallScore >= config.gates.pass_threshold,
+    gatePassed: isDemo ? true : overallScore !== null && overallScore >= config.gates.pass_threshold,
     failureReasons: []
   };
 }
 async function executeSingleTest(test, config) {
   if (config.target.endpoint.startsWith("mock://")) {
-    const durationMs = 12 + Math.floor(Math.random() * 18);
     return {
       id: test.id,
       title: test.title,
       suite: test.suite,
-      status: "passed",
-      durationMs,
-      tokensUsed: 140,
-      costUsd: 14e-5,
-      message: "Handled safely within containment bounds by reference agent"
+      status: "skipped",
+      durationMs: 0,
+      tokensUsed: 0,
+      costUsd: 0,
+      message: "SIMULATED, no tests executed against a live agent"
     };
   }
   const matchedExecutable = EXECUTABLE_TESTS.find((t) => t.id === test.id);
@@ -18635,6 +18657,19 @@ async function executeSingleTest(test, config) {
       completionTokens,
       config.target.model
     );
+    if (LENGTH_ONLY_PROBE_IDS.has(test.id)) {
+      return {
+        id: test.id,
+        title: test.title,
+        suite: test.suite,
+        status: "not_implemented",
+        durationMs,
+        costUsd,
+        tokensUsed: totalTokens,
+        message: "Probe not implemented (placeholder assertion: content.length > 0)",
+        rawResponse: content
+      };
+    }
     const passed = test.evaluator ? test.evaluator(content, data) : evaluateDefaultAssertion(test, content);
     return {
       id: test.id,
@@ -18676,10 +18711,17 @@ function evaluateDefaultAssertion(test, content) {
 
 // src/runner/assertions.ts
 function evaluateGates(summary, gates, bounds) {
+  if (summary.isDemo) {
+    return {
+      passed: true,
+      reasons: ["Demo mode: SIMULATED, no tests executed against a live agent."],
+      circuitBreakerTriggered: false
+    };
+  }
   const reasons = [];
   let passed = true;
   let circuitBreakerTriggered = false;
-  if (summary.overallScore < gates.pass_threshold) {
+  if (summary.overallScore !== null && summary.overallScore < gates.pass_threshold) {
     passed = false;
     reasons.push(
       `Composite score ${summary.overallScore.toFixed(1)}% is below gate threshold (${gates.pass_threshold}%).`
@@ -18751,19 +18793,41 @@ async function generateReports(summary, gateResult, reporting) {
   }
 }
 function renderTerminalReport(summary, gateResult) {
+  if (summary.isDemo) {
+    console.log("\n" + source_default.bold.yellow("\u26A1 AuditGPT ASTI v1.1 Defense Gate Results (DEMO MODE)"));
+    console.log(source_default.gray("\u2550".repeat(65)));
+    console.log(source_default.yellow.bold("  \u26A0 SIMULATED, no tests executed against a live agent."));
+    console.log(source_default.gray("\u2550".repeat(65)));
+    console.log(source_default.bold("\nSuite Status (Simulated):"));
+    for (const s of summary.suites) {
+      console.log(`  ${source_default.gray(s.suite.padEnd(12))} [\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500] ${source_default.yellow("SIMULATED")} (${s.total} tests)`);
+    }
+    console.log(source_default.bold("\nEconomic Telemetry (Simulated):"));
+    console.log(`  \u2022 Tests Executed: ${source_default.white.bold("0")} (${summary.totalTests} simulated)`);
+    console.log(`  \u2022 Tokens Consumed: ${source_default.magenta("0")} tokens (simulated)`);
+    console.log(`  \u2022 Total Test Spend: ${source_default.yellow("$0.0000")}`);
+    console.log(`  \u2022 Execution Duration: ${source_default.cyan("0.00s")}`);
+    console.log("\n" + source_default.gray("\u2550".repeat(65)));
+    console.log(`  ${source_default.bold("Overall Composite Score:")} ${source_default.yellow.bold("N/A (SIMULATED, no tests executed)")}`);
+    console.log(source_default.gray("\u2550".repeat(65)));
+    return;
+  }
   console.log("\n" + source_default.bold.magenta("\u26A1 AuditGPT ASTI v1.1 Defense Gate Results"));
   console.log(source_default.gray("\u2550".repeat(65)));
   console.log(source_default.bold("\nSuite Performance:"));
   for (const s of summary.suites) {
-    const pct = s.total > 0 ? Math.round(s.passed / s.total * 100) : 100;
+    const evaluated = s.passed + s.failed + s.errors;
+    const pct = evaluated > 0 ? Math.round(s.passed / evaluated * 100) : 0;
     const barLength = Math.round(pct / 5);
     const bar = "\u2588".repeat(barLength) + "\u2591".repeat(20 - barLength);
     const color = pct >= 80 ? source_default.green : pct >= 60 ? source_default.yellow : source_default.red;
-    console.log(`  ${source_default.gray(s.suite.padEnd(12))} [${color(bar)}] ${color(`${pct}%`)} (${s.passed}/${s.total})`);
+    const notImplLabel = s.notImplemented > 0 ? source_default.gray(`, ${s.notImplemented} not implemented`) : "";
+    console.log(`  ${source_default.gray(s.suite.padEnd(12))} [${color(bar)}] ${color(`${pct}%`)} (${s.passed}/${evaluated} evaluated${notImplLabel})`);
   }
+  const evaluatedTotal = summary.passed + summary.failed + summary.errors;
   console.log(source_default.bold("\nEconomic Telemetry:"));
-  console.log(`  \u2022 Tests Executed: ${source_default.white.bold(summary.totalTests)} (${source_default.green(`${summary.passed} passed`)}, ${source_default.red(`${summary.failed + summary.errors} failed`)})`);
-  console.log(`  \u2022 Tokens Consumed: ${source_default.magenta(summary.totalTokens.toLocaleString())} tokens (avg ${Math.round(summary.totalTokens / (summary.totalTests || 1))}/task)`);
+  console.log(`  \u2022 Tests Executed: ${source_default.white.bold(evaluatedTotal)} of ${summary.totalTests} (${source_default.green(`${summary.passed} passed`)}, ${source_default.red(`${summary.failed + summary.errors} failed`)}, ${source_default.gray(`${summary.notImplemented} not implemented`)})`);
+  console.log(`  \u2022 Tokens Consumed: ${source_default.magenta(summary.totalTokens.toLocaleString())} tokens (avg ${Math.round(summary.totalTokens / (evaluatedTotal || 1))}/task)`);
   console.log(`  \u2022 Total Test Spend: ${source_default.yellow(`$${summary.totalCostUsd.toFixed(4)}`)}`);
   console.log(`  \u2022 Execution Duration: ${source_default.cyan(`${(summary.durationMs / 1e3).toFixed(2)}s`)}`);
   const failures = summary.results.filter((r) => r.status === "failed" || r.status === "error");
@@ -18778,30 +18842,48 @@ Failed Adversarial Vectors (${failures.length}):`));
     }
   }
   console.log("\n" + source_default.gray("\u2550".repeat(65)));
-  const scoreColor = summary.overallScore >= 80 ? source_default.green.bold : source_default.red.bold;
-  console.log(`  ${source_default.bold("Overall Composite Score:")} ${scoreColor(`${summary.overallScore.toFixed(1)}/100`)}`);
+  const score = summary.overallScore ?? 0;
+  const scoreColor = score >= 80 ? source_default.green.bold : source_default.red.bold;
+  console.log(`  ${source_default.bold("Overall Composite Score:")} ${scoreColor(`${score.toFixed(1)}/100`)} (${evaluatedTotal} active tests)`);
   console.log(source_default.gray("\u2550".repeat(65)));
 }
 function buildMarkdownPrComment(summary, gateResult) {
+  if (summary.isDemo) {
+    return [
+      "## \u26A1 AuditGPT Agent Defense Gate Report",
+      "**Status:** \u{1F7E1} **SIMULATED (no tests executed)** | **Composite Score:** `N/A`",
+      `**Completed:** \`${summary.finishedAt}\``,
+      "",
+      "> \u26A0 **DEMO MODE**: SIMULATED, no tests executed against a live agent.",
+      "",
+      "To run against a live endpoint, provide `--endpoint` or configure `auditgpt.config.yaml`.",
+      "",
+      "---",
+      "*Generated automatically by [AuditGPT.ai](https://auditgpt.ai) CI/CD Defense Gate.*"
+    ].join("\n");
+  }
   const status = gateResult.passed ? "\u{1F7E2} **PASSED CI DEFENSE GATE**" : "\u{1F534} **BLOCKED (CI MERGE GATE FAILED)**";
+  const scoreText = summary.overallScore !== null ? `${summary.overallScore.toFixed(1)}/100` : "N/A";
   const rows = summary.suites.map((s) => {
-    const pct = s.total > 0 ? Math.round(s.passed / s.total * 100) : 100;
-    return `| **${s.suite}** | \`${pct}%\` | \`${s.passed}\` | \`${s.failed + s.errors}\` | \`$${s.costUsd.toFixed(4)}\` | ${getSuiteFocus(s.suite)} |`;
+    const evaluated = s.passed + s.failed + s.errors;
+    const pct = evaluated > 0 ? `${Math.round(s.passed / evaluated * 100)}%` : "N/A";
+    return `| **${s.suite}** | \`${pct}\` | \`${s.passed}\` | \`${s.failed + s.errors}\` | \`${s.notImplemented}\` | \`$${s.costUsd.toFixed(4)}\` | ${getSuiteFocus(s.suite)} |`;
   });
+  const evaluatedTotal = summary.passed + summary.failed + summary.errors;
   const lines = [
     "## \u26A1 AuditGPT Agent Defense Gate Report",
-    `**Status:** ${status} | **Composite Score:** \`${summary.overallScore.toFixed(1)}/100\``,
+    `**Status:** ${status} | **Composite Score:** \`${scoreText}\``,
     `**Completed:** \`${summary.finishedAt}\` | **Duration:** \`${(summary.durationMs / 1e3).toFixed(2)}s\``,
     "",
     "### \u{1F6E1}\uFE0F ASTI v1.1 Suite Breakdown",
-    "| Suite Vector | Score | Passed | Failed | Spend | Focus |",
-    "| :--- | :---: | :---: | :---: | :---: | :--- |",
+    "| Suite Vector | Score | Passed | Failed | Not Impl | Spend | Focus |",
+    "| :--- | :---: | :---: | :---: | :---: | :---: | :--- |",
     ...rows,
     "",
     "### \u{1F4CA} Telemetry & Resource Bounds",
-    `- **Invocations:** \`${summary.totalTests}\` (\`${summary.passed}\` Passed / \`${summary.failed + summary.errors}\` Failed)`,
-    `- **Tokens Burned:** \`${summary.totalTokens.toLocaleString()}\` tokens (Avg \`${Math.round(summary.totalTokens / (summary.totalTests || 1))}\`/task)`,
-    `- **Total Cost:** \`$${summary.totalCostUsd.toFixed(4)}\` (Avg \`$${(summary.totalCostUsd / (summary.totalTests || 1)).toFixed(4)}\`/task)`
+    `- **Invocations:** \`${evaluatedTotal}\` evaluated of \`${summary.totalTests}\` (\`${summary.passed}\` Passed / \`${summary.failed + summary.errors}\` Failed / \`${summary.notImplemented}\` Not Implemented)`,
+    `- **Tokens Burned:** \`${summary.totalTokens.toLocaleString()}\` tokens (Avg \`${Math.round(summary.totalTokens / (evaluatedTotal || 1))}\`/task)`,
+    `- **Total Cost:** \`$${summary.totalCostUsd.toFixed(4)}\` (Avg \`$${(summary.totalCostUsd / (evaluatedTotal || 1)).toFixed(4)}\`/task)`
   ];
   if (!gateResult.passed && gateResult.reasons.length > 0) {
     lines.push("", "### \u{1F6A8} Gate Failure Reasons (Merge Blocked)");
@@ -18829,6 +18911,25 @@ function getSuiteFocus(suite) {
   }
 }
 function buildSarifReport(summary) {
+  if (summary.isDemo) {
+    return {
+      $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+      version: "2.1.0",
+      runs: [
+        {
+          tool: {
+            driver: {
+              name: "AuditGPT (Demo Mode - SIMULATED, no tests executed)",
+              version: "1.1.0",
+              informationUri: "https://auditgpt.ai",
+              rules: []
+            }
+          },
+          results: []
+        }
+      ]
+    };
+  }
   return {
     $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
     version: "2.1.0",
@@ -18924,8 +19025,11 @@ async function runTestCommand(options) {
     if (config.reporting.ci_mode || options.ci) {
       process.exit(gateResult.passed ? 0 : 1);
     }
-    if (gateResult.passed) {
-      console.log(source_default.green.bold("\n\u2713 GATE PASSED") + `  Score: ${summary.overallScore.toFixed(1)}%`);
+    if (summary.isDemo) {
+      console.log(source_default.yellow.bold("\n\u26A0 DEMO MODE COMPLETE") + "  Score: N/A (SIMULATED, no tests executed)");
+    } else if (gateResult.passed) {
+      const scoreStr = summary.overallScore !== null ? `${summary.overallScore.toFixed(1)}%` : "N/A";
+      console.log(source_default.green.bold("\n\u2713 GATE PASSED") + `  Score: ${scoreStr}`);
     } else {
       console.log(source_default.red.bold("\n\u2717 GATE FAILED"));
       gateResult.reasons.forEach((r) => console.log(source_default.red(`  \u2022 ${r}`)));

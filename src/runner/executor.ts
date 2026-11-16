@@ -4,6 +4,11 @@ import type { AuditGPTConfig } from '../config';
 import { calculateTokenCost } from './cost';
 import { EXECUTABLE_TESTS } from '../battery/executable-tests';
 
+const LENGTH_ONLY_PROBE_IDS = new Set([
+  'STAT-22', 'STAT-23', 'STAT-24', 'STAT-25', 'STAT-26', 'STAT-27', 'STAT-28', 'STAT-29', 'STAT-30',
+  'ECON-45', 'ECON-46', 'ECON-47', 'ECON-48', 'ECON-49', 'ECON-50',
+]);
+
 interface RunBatteryOptions {
   tests: TestCase[];
   config: AuditGPTConfig;
@@ -22,7 +27,8 @@ export async function runBattery({
   const total = tests.length;
   let completed = 0;
 
-  const concurrency = config.testing.concurrency || 5;
+  const isDemo = config.target.endpoint.startsWith('mock://');
+  const concurrency = isDemo ? 10 : (config.testing.concurrency || 5);
 
   async function worker() {
     while (queue.length > 0) {
@@ -54,6 +60,7 @@ export async function runBattery({
       passed: matched.filter((r) => r.status === 'passed').length,
       failed: matched.filter((r) => r.status === 'failed').length,
       errors: matched.filter((r) => r.status === 'error').length,
+      notImplemented: matched.filter((r) => r.status === 'not_implemented').length,
       costUsd: matched.reduce((acc, r) => acc + r.costUsd, 0),
       tokensUsed: matched.reduce((acc, r) => acc + r.tokensUsed, 0),
     };
@@ -62,7 +69,9 @@ export async function runBattery({
   const passed = results.filter((r) => r.status === 'passed').length;
   const failed = results.filter((r) => r.status === 'failed').length;
   const errors = results.filter((r) => r.status === 'error').length;
-  const overallScore = total > 0 ? (passed / total) * 100 : 0;
+  const notImplemented = results.filter((r) => r.status === 'not_implemented').length;
+  const evaluatedCount = passed + failed + errors;
+  const overallScore = isDemo ? null : (evaluatedCount > 0 ? (passed / evaluatedCount) * 100 : 0);
   const totalCostUsd = results.reduce((acc, r) => acc + r.costUsd, 0);
   const totalTokens = results.reduce((acc, r) => acc + r.tokensUsed, 0);
 
@@ -74,12 +83,14 @@ export async function runBattery({
     passed,
     failed,
     errors,
+    notImplemented,
     overallScore,
+    isDemo,
     totalCostUsd: Number(totalCostUsd.toFixed(4)),
     totalTokens,
     suites,
     results,
-    gatePassed: overallScore >= config.gates.pass_threshold,
+    gatePassed: isDemo ? true : (overallScore !== null && overallScore >= config.gates.pass_threshold),
     failureReasons: [],
   };
 }
@@ -88,17 +99,16 @@ async function executeSingleTest(
   test: TestCase,
   config: AuditGPTConfig
 ): Promise<TestResult> {
-  if (config.target.endpoint.startsWith("mock://")) {
-    const durationMs = 12 + Math.floor(Math.random() * 18);
+  if (config.target.endpoint.startsWith('mock://')) {
     return {
       id: test.id,
       title: test.title,
       suite: test.suite,
-      status: 'passed',
-      durationMs,
-      tokensUsed: 140,
-      costUsd: 0.00014,
-      message: 'Handled safely within containment bounds by reference agent',
+      status: 'skipped',
+      durationMs: 0,
+      tokensUsed: 0,
+      costUsd: 0,
+      message: 'SIMULATED, no tests executed against a live agent',
     };
   }
 
@@ -184,6 +194,21 @@ async function executeSingleTest(
       completionTokens,
       config.target.model
     );
+
+    // If probe only checks content.length > 0, mark as not implemented and exclude from score
+    if (LENGTH_ONLY_PROBE_IDS.has(test.id)) {
+      return {
+        id: test.id,
+        title: test.title,
+        suite: test.suite,
+        status: 'not_implemented',
+        durationMs,
+        costUsd,
+        tokensUsed: totalTokens,
+        message: 'Probe not implemented (placeholder assertion: content.length > 0)',
+        rawResponse: content,
+      };
+    }
 
     const passed = test.evaluator
       ? test.evaluator(content, data)

@@ -22,7 +22,7 @@ export interface BatteryCategory {
   tests: TestCase[];
 }
 
-export type TestStatus = 'passed' | 'failed' | 'error' | 'skipped';
+export type TestStatus = 'passed' | 'failed' | 'error' | 'skipped' | 'not_implemented';
 
 export interface TestResult {
   id: string;
@@ -42,6 +42,7 @@ export interface SuiteSummary {
   passed: number;
   failed: number;
   errors: number;
+  notImplemented: number;
   costUsd: number;
   tokensUsed: number;
 }
@@ -54,7 +55,9 @@ export interface RunSummary {
   passed: number;
   failed: number;
   errors: number;
-  overallScore: number;          // 0–100
+  notImplemented: number;
+  overallScore: number | null;   // null for demo / simulated
+  isDemo?: boolean;
   totalCostUsd: number;
   totalTokens: number;
   suites: SuiteSummary[];
