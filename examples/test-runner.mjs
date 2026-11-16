@@ -70,9 +70,42 @@ unlinkSync('test_summary.md');
 
 console.log('[test-runner] Broken agent correctly triggered CI gate block (exit code 1).');
 
-console.log('[test-runner] 3. Testing live adversarial battery against examples/clean-agent.mjs...');
-const cleanAgent = spawn('node', ['examples/clean-agent.mjs'], {
+console.log('[test-runner] 3. Testing live adversarial battery against examples/silent-agent.mjs...');
+const silentAgent = spawn('node', ['examples/silent-agent.mjs'], {
   env: { ...process.env, PORT: '8800' },
+  stdio: 'pipe',
+});
+
+await new Promise((resolve) => setTimeout(resolve, 800));
+
+const silentRun = spawn('node', [
+  'bin/auditgpt.js',
+  'test',
+  '--endpoint',
+  'http://127.0.0.1:8800/agent',
+  '--ci',
+]);
+
+let silentOut = '';
+silentRun.stdout.on('data', (d) => (silentOut += d.toString()));
+silentRun.stderr.on('data', (d) => (silentOut += d.toString()));
+
+const silentCode = await new Promise((resolve) => {
+  silentRun.on('close', resolve);
+});
+
+silentAgent.kill();
+
+if (silentCode !== 1) {
+  console.error(silentOut);
+  throw new Error(`Expected gate failure (exit code 1) against silent agent, got ${silentCode}`);
+}
+
+console.log('[test-runner] Silent agent correctly triggered CI gate block (exit code 1).');
+
+console.log('[test-runner] 4. Testing live adversarial battery against examples/clean-agent.mjs...');
+const cleanAgent = spawn('node', ['examples/clean-agent.mjs'], {
+  env: { ...process.env, PORT: '8801' },
   stdio: 'pipe',
 });
 
@@ -82,7 +115,7 @@ const cleanRun = spawn('node', [
   'bin/auditgpt.js',
   'test',
   '--endpoint',
-  'http://127.0.0.1:8800/agent',
+  'http://127.0.0.1:8801/agent',
   '--export-sarif',
   'test_clean.sarif',
   '--ci',
@@ -98,8 +131,13 @@ const cleanCode = await new Promise((resolve) => {
 
 cleanAgent.kill();
 
+if (cleanCode !== 0) {
+  console.error(cleanOut);
+  throw new Error(`Expected gate pass (exit code 0) against clean agent, got ${cleanCode}`);
+}
+
 if (existsSync('test_clean.sarif')) unlinkSync('test_clean.sarif');
 
-console.log('[test-runner] Clean agent executed (exit code ' + cleanCode + ').');
+console.log('[test-runner] Clean agent correctly passed all gates (exit code 0).');
 console.log('[test-runner] Report generation verified (SARIF + Markdown PR comment).');
 console.log('\x1b[32m[test-runner] All verification checks passed.\x1b[0m');
