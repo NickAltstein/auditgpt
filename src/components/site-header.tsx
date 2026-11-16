@@ -9,7 +9,6 @@ const NAV_LINKS = [
   ['Home', '/claim-review'],
   ['How It Works', '/how-it-works'],
   ['Trust', '/trust'],
-  ['Pricing', '/pricing'],
 ] as const;
 
 export function SiteHeader() {

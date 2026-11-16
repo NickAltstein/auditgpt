@@ -6,7 +6,7 @@ export function InvoiceCaseStudyProof() {
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
           <span className="inline-block rounded-full bg-emerald-500/10 px-3 py-0.5 font-mono text-xs font-semibold text-emerald-400 border border-emerald-500/20">
-            VERIFIED CASE STUDY • PR #17
+            CASE STUDY (SYNTHETIC) • PR #17
           </span>
           <h3 className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-white font-display">
             Governing Autonomous Financial Workflows Outside the Model Runtime

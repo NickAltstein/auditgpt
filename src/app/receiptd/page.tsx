@@ -15,6 +15,7 @@ import {
   GitPullRequest,
   Hash,
   Lock,
+  Mail,
   Shield,
   ShieldAlert,
   ShieldCheck,
@@ -25,7 +26,7 @@ import styles from "../homepage.module.css";
 
 const title = "Receiptd | Runtime Execution Boundary & Cryptographic Receipts for AI Agents";
 const description =
-  "Open-source fail-closed PreToolUse hook for Claude Code and MCP agents. Evaluates policy in <2ms, halts destructive actions with exit code 2, and produces offline-verifiable Ed25519 receipts.";
+  "Open-source fail-closed PreToolUse hook for Claude Code and MCP agents. Evaluates policy in 0.02ms in-process (~78ms cold hook), halts destructive actions with exit code 2, and produces Ed25519 execution receipts with offline hash-chain checking.";
 
 export const metadata: Metadata = {
   title,
@@ -106,7 +107,14 @@ const PRIMITIVES = [
     tag: "PRIMITIVE 04",
     title: "Binary Merkle Tree Checkpoints",
     description:
-      "Roots are computed every 100 receipts and recorded to disk. External compliance reviewers or automated CI audit jobs can verify thousands of tool actions in under 15ms completely offline.",
+      "Roots are computed every 100 receipts by default (or configurable down to shorter intervals or session close) and recorded to disk. Reviewers or CI jobs verify thousands of tool actions offline.",
+  },
+  {
+    icon: ShieldAlert,
+    tag: "PRIMITIVE 05",
+    title: "Stop Hook Protection",
+    description:
+      "Prevents runaway agent retry loops and runaway token drain. Claude Code's Stop hook retries up to 3 times before terminating cleanly with a signed gave_up receipt rather than blocking forever.",
   },
 ];
 
@@ -131,7 +139,9 @@ export default function ReceiptdPage() {
           <nav aria-label="Main navigation">
             <a href="#primitives">Architecture</a>
             <a href="#spec">Receipt Spec</a>
-            <a href="#tamper-proof">Offline Verify</a>
+            <a href="#tamper-proof">Offline Checking</a>
+            <a href="#trifecta-card">Trifecta Card</a>
+            <a href="#limits">Limits</a>
             <a href="#case-study">Case Study</a>
             <a href="#quickstart">Quickstart</a>
             <a className={styles.navCta} href={demo} target="_blank" rel="noopener noreferrer">
@@ -146,17 +156,22 @@ export default function ReceiptdPage() {
         <section className={styles.hero} aria-labelledby="headline">
           <div className={styles.heroGrid}>
             <div className={styles.intro}>
-              <p className={styles.label}>
-                <span /> Open-source runtime authorization
-              </p>
+              <div className="flex items-center gap-2 mb-3">
+                <p className={styles.label}>
+                  <span /> Open-source runtime authorization
+                </p>
+                <span className="font-mono text-[11px] font-semibold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded">
+                  MIT Licensed
+                </span>
+              </div>
               <h1 id="headline">
-                Enforce tool policy at runtime. <em>Verify signed decisions offline.</em>
+                Enforce tool policy at runtime. <em>Offline hash-chain checking.</em>
               </h1>
               <p className={styles.lead}>
                 Receiptd is a fail-closed execution boundary for Claude Code and Model Context
-                Protocol (MCP) agents. It intercepts tool calls, evaluates policy in under 2ms,
-                halts unauthorized actions with exit code 2, and produces tamper-evident Ed25519
-                receipts.
+                Protocol (MCP) agents. It intercepts tool calls, evaluates policy in 0.02 ms
+                in-process (~78 ms cold hook), halts unauthorized actions with exit code 2, and produces
+                tamper-evident Ed25519 receipts.
               </p>
               <div className={styles.actions}>
                 <a className={styles.primary} href={demo} target="_blank" rel="noopener noreferrer">
@@ -165,12 +180,20 @@ export default function ReceiptdPage() {
                 <a className={styles.secondary} href={repo} target="_blank" rel="noopener noreferrer">
                   View Receiptd on GitHub <ArrowRight size={16} aria-hidden="true" />
                 </a>
+                <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-emerald-950 bg-emerald-100/90 border border-emerald-300 px-3 py-2 rounded-lg select-all">
+                  pip install receiptd
+                </span>
               </div>
+
+              <div className="mt-4 pt-3 border-t border-zinc-200/80 font-mono text-xs text-zinc-600">
+                <span className="font-semibold text-zinc-900">Hook Latency:</span> 0.02 ms in-process · ~78 ms cold hook (77.5 ms mean, 82.4 ms p95)
+              </div>
+
               <ul className={styles.trust} aria-label="Technical capabilities">
-                <li>&lt;2ms hook latency</li>
+                <li>0.02 ms in-process · ~78 ms cold hook</li>
                 <li>Fail-closed (exit 2)</li>
                 <li>Ed25519 + canonical JSON</li>
-                <li>Offline Merkle proof</li>
+                <li>Open Source (MIT)</li>
               </ul>
             </div>
 
@@ -207,7 +230,7 @@ export default function ReceiptdPage() {
                     <Fingerprint size={15} aria-hidden="true" /> Cryptographic Receipt #42
                   </span>
                   <span className={styles.verified}>
-                    {preview.verified ? "Ed25519 Verified" : "Verification Failed"}
+                    {preview.verified ? "Signature checks out" : "Signature invalid"}
                   </span>
                 </div>
                 <dl className={styles.proof}>
@@ -241,7 +264,7 @@ export default function ReceiptdPage() {
           </div>
         </section>
 
-        {/* The 4 Primitives */}
+        {/* Core Architecture */}
         <section id="primitives" className={styles.walkthrough} aria-labelledby="primitives-title">
           <div className={styles.sectionHeading}>
             <div>
@@ -249,7 +272,7 @@ export default function ReceiptdPage() {
                 <Cpu size={15} aria-hidden="true" /> Core Architecture
               </p>
               <h2 id="primitives-title" className="mt-2">
-                Four deterministic security primitives
+                Five deterministic security primitives
               </h2>
             </div>
             <a href={repo} target="_blank" rel="noopener noreferrer">
@@ -257,7 +280,7 @@ export default function ReceiptdPage() {
             </a>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
             {PRIMITIVES.map(({ icon: Icon, tag, title, description }) => (
               <div
                 key={tag}
@@ -329,14 +352,14 @@ export default function ReceiptdPage() {
               <div className="rounded-lg border border-zinc-200 bg-white p-4">
                 <span className="text-emerald-700 font-bold">sig</span>
                 <p className="text-zinc-600 mt-1 font-sans text-xs">
-                  Ed25519 signature over canonical receipt bytes. Verifiable offline using the exported public key.
+                  Ed25519 signature over canonical receipt bytes. Offline checking using the exported public key.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Offline Verification */}
+        {/* Offline Checking & Tamper Detection */}
         <section id="tamper-proof" className={styles.caseStudy} aria-labelledby="tamper-title">
           <div className={styles.sectionHeading}>
             <div>
@@ -344,7 +367,7 @@ export default function ReceiptdPage() {
                 <FileCheck2 size={15} aria-hidden="true" /> Zero-Trust Audit
               </p>
               <h2 id="tamper-title" className="mt-2">
-                Offline Verification &amp; Tamper Detection
+                Offline Checking &amp; Tamper Detection
               </h2>
             </div>
             <a href={repo} target="_blank" rel="noopener noreferrer">
@@ -354,7 +377,8 @@ export default function ReceiptdPage() {
 
           <p className="text-sm text-zinc-600 max-w-3xl leading-relaxed mb-6">
             Reviewers and compliance auditors don’t need access to production databases or third-party APIs.
-            The audit trail is verified completely offline by re-deriving the hash chain and checking signatures.
+            The audit trail is checked completely offline by re-deriving the hash chain and checking signatures.
+            Merkle roots anchor checkpoints every 100 receipts by default (or configured down to custom intervals or session close).
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -395,6 +419,110 @@ export default function ReceiptdPage() {
           </div>
         </section>
 
+        {/* Trifecta Hazard Card */}
+        <section id="trifecta-card" className={styles.caseStudy} aria-labelledby="trifecta-title">
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.label}>
+                <ShieldCheck size={15} aria-hidden="true" /> Post-Session Audit
+              </p>
+              <h2 id="trifecta-title" className="mt-2">
+                Trifecta Hazard Card
+              </h2>
+            </div>
+            <span className="font-mono text-xs text-zinc-500">receiptd card · receiptd verify-card</span>
+          </div>
+
+          <p className="text-sm text-zinc-600 max-w-3xl leading-relaxed mb-6">
+            <code className="font-mono text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 font-semibold">receiptd card</code> analyzes Claude Code and Codex session logs offline with deterministic rules, answering one question: <em>did this session touch the lethal trifecta of private data + untrusted input + egress?</em>
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start font-mono text-xs">
+            <div className="bg-[#10231a] border border-[#244b34] rounded-xl p-5 text-emerald-100 shadow-md space-y-3">
+              <div className="flex items-center justify-between pb-3 border-b border-[#32503e] text-zinc-300">
+                <span>$ receiptd card --last 1</span>
+                <span className="text-[#9effa9]">Signed Card</span>
+              </div>
+              <pre className="text-xs text-emerald-200 overflow-x-auto leading-relaxed">
+{`[CLASSIFY] Analyzed 18 tool calls from session log
+[TRIFECTA] Private Data Access:    DETECTED (db.read_secret)
+[TRIFECTA] Untrusted Input Parse:  DETECTED (web.fetch)
+[TRIFECTA] External Data Egress:    BLOCKED  (curl exfil)
+------------------------------------------------------
+VERDICT: HAZARD NEUTRALIZED (Exit 0)
+Exported signed card: card.json & card.svg`}
+              </pre>
+            </div>
+
+            <div className="space-y-3 font-sans text-xs">
+              <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-xs">
+                <h4 className="font-bold font-mono text-zinc-900 text-sm">Deterministic Classification</h4>
+                <p className="text-zinc-600 mt-1.5 leading-relaxed">
+                  Evaluates tool names, arguments, and hosts against deterministic rule patterns in <code className="font-mono text-[11px] bg-zinc-100 px-1 rounded">rules.yaml</code>. Makes zero external network calls and inspects only tool call metadata, never prompt text.
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-xs">
+                <h4 className="font-bold font-mono text-zinc-900 text-sm">Offline Verification via CLI</h4>
+                <p className="text-zinc-600 mt-1.5 leading-relaxed">
+                  Check the authenticity of any card with <code className="font-mono text-[11px] bg-zinc-100 px-1 rounded">receiptd verify-card card.json</code>. Re-checks the Ed25519 signature against the developer&apos;s public key.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Limits Section */}
+        <section id="limits" className={styles.caseStudy} aria-labelledby="limits-title">
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.label}>
+                <ShieldAlert size={15} aria-hidden="true" /> Explicit Scope
+              </p>
+              <h2 id="limits-title" className="mt-2">
+                What Receiptd Does Not Cover
+              </h2>
+            </div>
+            <span className="font-mono text-xs text-zinc-500">Honest Boundary Conditions</span>
+          </div>
+
+          <p className="text-sm text-zinc-600 max-w-3xl leading-relaxed mb-6">
+            Security tools earn trust by clearly defining their operational boundaries. Receiptd is a deterministic gate for configured agent hooks, not an omnipresent operating system sandbox.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2">
+              <div className="font-mono text-xs font-semibold text-rose-800 uppercase tracking-wider">
+                01 / Unhooked Execution Paths
+              </div>
+              <h3 className="text-base font-bold text-zinc-900">Unhooked tools bypass the gate</h3>
+              <p className="text-sm text-zinc-600 leading-relaxed font-sans">
+                Receiptd intercepts only actions routed through Claude Code&apos;s PreToolUse lifecycle and configured MCP wrappers. Direct subprocess spawns or tools called outside the hook pipeline are not gated.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2">
+              <div className="font-mono text-xs font-semibold text-rose-800 uppercase tracking-wider">
+                02 / Decision vs. Execution
+              </div>
+              <h3 className="text-base font-bold text-zinc-900">Receipts record decisions, not side effects</h3>
+              <p className="text-sm text-zinc-600 leading-relaxed font-sans">
+                A signed receipt proves whether Receiptd permitted or denied the tool invocation. It does not record whether downstream third-party APIs succeeded, failed, or timed out.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2">
+              <div className="font-mono text-xs font-semibold text-rose-800 uppercase tracking-wider">
+                03 / Loop Prevention
+              </div>
+              <h3 className="text-base font-bold text-zinc-900">Stop hook gives up after 3 retries</h3>
+              <p className="text-sm text-zinc-600 leading-relaxed font-sans">
+                To avoid locking developer sessions into infinite retry cycles, the Stop hook retries up to 3 times, then exits cleanly with a signed gave_up receipt rather than blocking indefinitely.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Case Study Section */}
         <section id="case-study" className={styles.caseStudy} aria-labelledby="case-study-title">
           <div className={styles.sectionHeading}>
@@ -403,7 +531,7 @@ export default function ReceiptdPage() {
                 <GitPullRequest size={15} aria-hidden="true" /> Reproducible Proof
               </p>
               <h2 id="case-study-title" className="mt-2">
-                Verified Synthetic Invoice Review
+                Synthetic Invoice Review (Case Study)
               </h2>
             </div>
             <a
@@ -427,7 +555,7 @@ export default function ReceiptdPage() {
             <h2 id="quickstart-title">Add Receiptd to your agent in 60s</h2>
             <p>
               Install the lightweight Python package into your local virtualenv or container. Receiptd
-              hooks directly into Claude Code&apos;s PreToolUse lifecycle and MCP server pipelines.
+              hooks directly into Claude Code&apos;s PreToolUse lifecycle and MCP server pipelines. Open source under the MIT License.
             </p>
             <a href={repo} target="_blank" rel="noopener noreferrer">
               Read the Integration Guide <ArrowUpRight size={16} aria-hidden="true" />
@@ -439,18 +567,39 @@ export default function ReceiptdPage() {
               <Terminal size={16} aria-hidden="true" /> Setup &amp; Audit Commands
             </div>
             <pre>
-              <code>{`# 1. Install Receiptd
-pip install git+https://github.com/NickAltstein/receiptd
+              <code>{`# 1. Install Receiptd from PyPI and hook Claude Code
+pip install receiptd && receiptd init --claude-code
 
-# 2. Initialize Claude Code PreToolUse hook
-receiptd init --claude-code
-
-# 3. Export public key for offline verifiers
+# 2. Export public key for offline verifiers
 receiptd pubkey > ./receiptd.pub
 
-# 4. Verify any ledger completely offline
-receiptd verify --ledger .receiptd/ledger.jsonl`}</code>
+# 3. Check any ledger completely offline
+receiptd verify --ledger .receiptd/ledger.jsonl
+
+# 4. Generate signed Trifecta hazard card
+receiptd card --last 1`}</code>
             </pre>
+          </div>
+        </section>
+
+        {/* Design Partner Inquiries */}
+        <section className="py-12 border-t border-zinc-200 bg-zinc-50/80">
+          <div className="max-w-4xl mx-auto px-4 text-center space-y-3 font-sans">
+            <h3 className="text-lg font-bold text-zinc-900">Design Partner Inquiries</h3>
+            <p className="text-sm text-zinc-600 max-w-xl mx-auto leading-relaxed">
+              Interested in deploying deterministic tool execution boundaries or cryptographic receipt chains for your enterprise agent workflows?
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono pt-2">
+              <a href="mailto:contact@auditgpt.ai" className="font-semibold text-emerald-800 hover:underline">
+                contact@auditgpt.ai
+              </a>
+              <span className="text-zinc-300">|</span>
+              <span className="text-zinc-700">Nick Altstein</span>
+              <span className="text-zinc-300">|</span>
+              <a href="https://github.com/NickAltstein/receiptd/issues" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 hover:underline">
+                GitHub Issues &rarr;
+              </a>
+            </div>
           </div>
         </section>
       </main>

@@ -69,8 +69,9 @@ export function Hero() {
                   rel="noopener noreferrer"
                   className="font-semibold text-sky-600 underline decoration-sky-600/30 underline-offset-2 hover:text-sky-700"
                 >
-                  Receiptd (Ed25519)
-                </a>
+                  Receiptd
+                </a>{' '}
+                <span className="text-slate-400 font-mono text-[11px]">(<code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">pip install receiptd</code>)</span>
               </span>
             </motion.div>
 

@@ -111,7 +111,7 @@ export default function Home() {
         {/* Platform Architecture: Test · Enforce · Monitor · Prove */}
         <PlatformArchitecture />
 
-        {/* Verified Case Study: Synthetic Invoice Review */}
+        {/* Case Study (Synthetic): Invoice Review */}
         <section id="case-study" className="py-8 px-4 sm:px-6">
           <div className="mx-auto max-w-6xl">
             <InvoiceCaseStudyProof />
@@ -360,15 +360,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-8 text-center">
-              <Link
-                href="/pricing"
-                className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#111827] hover:underline"
-              >
-                <span>Compare all features across Free, Team, Growth &amp; Enterprise</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
+
           </div>
         </section>
 
@@ -497,7 +489,7 @@ export default function Home() {
 
           <div className="border-t border-[#f1f5f9] pt-4 text-xs text-[#475467] leading-relaxed font-mono">
             <p>
-              <strong className="text-[#111827]">Zero Data Egress &amp; Sandbox Isolation:</strong> AuditGPT executes adversarial evaluation suites locally or inside your private VPC runner. Powered by <a href="https://github.com/NickAltstein/receiptd" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#111827] underline">Receiptd</a> runtime enforcement and Ed25519 execution receipts. We never train on, store, or exfiltrate private prompts, schemas, or tool payloads.
+              <strong className="text-[#111827]">Zero Data Egress &amp; Sandbox Isolation:</strong> AuditGPT executes adversarial evaluation suites locally or inside your private VPC runner. Powered by <a href="https://github.com/NickAltstein/receiptd" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#111827] underline">Receiptd</a> (<code className="text-[11px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">pip install receiptd</code>) runtime enforcement and Ed25519 execution receipts. We never train on, store, or exfiltrate private prompts, schemas, or tool payloads.
             </p>
             <p className="pt-2 text-[#667085]">
               &copy; {new Date().getFullYear()} AuditGPT.ai &mdash; Snyk for Autonomous AI Agents. MIT Licensed.
