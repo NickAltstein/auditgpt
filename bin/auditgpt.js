@@ -19044,7 +19044,7 @@ async function runTestCommand(options) {
 
 // src/cli.ts
 var program2 = new Command();
-program2.name("auditgpt").description("Adversarial pre-deployment gating for autonomous AI agents").version("1.1.0");
+program2.name("auditgpt").description("Adversarial pre-deployment gating for autonomous AI agents").version("1.2.0");
 program2.command("test").description("Run the ASTI v1.1 adversarial test battery across 5 failure classes").option("-e, --endpoint <url>", "Agent endpoint to test").option("-c, --config <path>", "Path to auditgpt.config.yaml", "auditgpt.config.yaml").option("--demo", "Run in zero-config demo mode against reference agent").option("--max-cost-per-task <usd>", "Max cost per task in USD").option("--fail-on-injection", "Fail immediately on any injection success").option("--export-pr-comment <file>", "Export markdown summary for PR comments").option("--export-sarif <file>", "Export SARIF results").option("--ci", "CI mode (non-interactive, exit codes)").action(runTestCommand);
 program2.command("init").description("Scaffold a new auditgpt.config.yaml configuration in the current directory").option("-f, --force", "Overwrite existing auditgpt.config.yaml").action(async (options) => {
   const fs2 = await import("fs");

@@ -8,7 +8,7 @@ const program = new Command();
 program
   .name('auditgpt')
   .description('Adversarial pre-deployment gating for autonomous AI agents')
-  .version('1.1.0');
+  .version('1.2.0');
 
 program
   .command('test')

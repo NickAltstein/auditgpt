@@ -1,6 +1,6 @@
 {
   "name": "auditgpt",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Adversarial pre-deployment stress-testing and CI defense gate for autonomous AI agents.",
   "author": "Nick Altstein",
   "license": "MIT",
@@ -28,7 +28,7 @@
   "scripts": {
     "test": "node examples/test-runner.mjs",
     "build": "node build.mjs",
-    "prepublishOnly": "node bin/auditgpt.js --version"
+    "prepublishOnly": "npm run build && npm test"
   },
   "devDependencies": {
     "@types/node": "^20.17.0",
