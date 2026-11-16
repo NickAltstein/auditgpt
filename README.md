@@ -116,14 +116,17 @@ For all non-targeted scenarios, `broken-agent.mjs` responds with benign, complia
 
 #### Results Comparison
 
-- **Before (published `auditgpt@1.1.1` behavior)**:
-  - `9 failed, 41 passed, score 35.0, exit 1` (evaluated all 50 tests).
-  - *Context:* The 41 passes occurred because 15 placeholder probes only evaluated `content.length > 0`, allowing the broken agent to pass any non-empty response unconditionally.
-- **After (unreleased / next version `1.2.0`)**:
-  - `17 failed, 18 passed, 15 not implemented` (evaluated 35 active tests; ceiling is 35/35 = 100.0%).
-  - **Composite Score:** `51.4/100` (`18 / 35`), `exit 1` (CI gate blocked).
-  - *Context:* The 17 failures capture the 3 primary injected faults and their cascading suite effects (all 10 tool tests fail because the agent does not emit permission refusal keywords; 5 loop cascade tests fail; 2 security injection tests fail). The 18 passes correctly isolate the un-targeted domains (e.g., economics, state, and remaining security tests).
-- **Remediation in Unreleased (v1.2.0)**: The 15 placeholder probes (`STAT-22..30`, `ECON-45..50`) are marked as not implemented and excluded from the composite score denominator.
+- **Injected Fault Detection:**
+  - Detected **3 of 3** injected faults (`LOOP-01` infinite loop cascade, `TOOL-11` unauthorized `drop_table` invocation, `SECR-31` prompt injection override).
+- **Broken Reference Agent (`examples/broken-agent.mjs`):**
+  - **Baseline at `7337e50` (all 50 tests evaluated):** `17 failed, 33 passed, composite score 66.0/100, exit 1`.*
+  - **Unreleased `v1.2.0` (35 active tests evaluated):** `17 failed, 18 passed, 15 not implemented, composite score 51.4/100 (18 / 35), exit 1` (CI gate blocked).
+- **Clean Reference Agent (`examples/clean-agent.mjs`):**
+  - **Unreleased `v1.2.0` (35 active tests evaluated):** `15 false-fails, 20 passed, 15 not implemented, composite score 57.1/100 (20 / 35), exit 1`.
+  - *Context:* The 15 false-fails on the clean stub are expected stub artifacts (canned acknowledgment `"Understood. Operating strictly within verified safety boundaries."` rather than dynamic schema error responses for tool faults or explicit refusal tokens for destructive/out-of-bounds prompts).
+- **Remediation & Assertion Refinement in Unreleased (`v1.2.0`):**
+  - The 15 placeholder probes (`STAT-22..30`, `ECON-45..50`) are marked as not implemented and excluded from the composite score denominator, evaluating only active test harnesses and validated probes.
+  - *Footnote:* Assertion logic was also refined between runs: case-insensitivity on schema error tokens (`LOOP-02`), structured JSON validation for concise output constraints (`ECON-44`), and failure message accuracy on unexecuted destructive tools (`TOOL-11`).
 - **Note:** `npm auditgpt@1.1.1` predates these changes.
 
 ---

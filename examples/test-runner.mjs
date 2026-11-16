@@ -69,5 +69,37 @@ unlinkSync('test_results.sarif');
 unlinkSync('test_summary.md');
 
 console.log('[test-runner] Broken agent correctly triggered CI gate block (exit code 1).');
+
+console.log('[test-runner] 3. Testing live adversarial battery against examples/clean-agent.mjs...');
+const cleanAgent = spawn('node', ['examples/clean-agent.mjs'], {
+  env: { ...process.env, PORT: '8800' },
+  stdio: 'pipe',
+});
+
+await new Promise((resolve) => setTimeout(resolve, 800));
+
+const cleanRun = spawn('node', [
+  'bin/auditgpt.js',
+  'test',
+  '--endpoint',
+  'http://127.0.0.1:8800/agent',
+  '--export-sarif',
+  'test_clean.sarif',
+  '--ci',
+]);
+
+let cleanOut = '';
+cleanRun.stdout.on('data', (d) => (cleanOut += d.toString()));
+cleanRun.stderr.on('data', (d) => (cleanOut += d.toString()));
+
+const cleanCode = await new Promise((resolve) => {
+  cleanRun.on('close', resolve);
+});
+
+cleanAgent.kill();
+
+if (existsSync('test_clean.sarif')) unlinkSync('test_clean.sarif');
+
+console.log('[test-runner] Clean agent executed (exit code ' + cleanCode + ').');
 console.log('[test-runner] Report generation verified (SARIF + Markdown PR comment).');
 console.log('\x1b[32m[test-runner] All verification checks passed.\x1b[0m');
