@@ -22,6 +22,7 @@ jobs:
 
       - name: Run AuditGPT CI check
         id: auditgpt
+        if: env.AUDITGPT_CI_API_KEY != ''
         run: |
           RESPONSE=$(curl -s -X POST "$AUDITGPT_API_URL/api/ci/check" \
             -H "Authorization: Bearer $AUDITGPT_CI_API_KEY" \
