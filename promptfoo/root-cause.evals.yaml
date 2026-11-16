@@ -1,0 +1,168 @@
+# Root-Cause Engine Evaluation Suite
+# Run: npx promptfoo eval -c promptfoo/root-cause.evals.yaml
+#
+# This suite tests the distortion root-cause classifier across all 8 categories.
+# Every confident classification must include source evidence.
+# Weak/conflicting signals must return "unknown" with confidence null.
+
+prompts:
+  - "Classify the root cause of this AI distortion signal. Return JSON with root_cause, confidence, explanation, source_evidence, action, and fix_diff."
+
+providers:
+  - id: openai:gpt-4o
+    config:
+      temperature: 0
+
+defaultTest:
+  options:
+    provider:
+      text: openai:gpt-4o
+    rubrics:
+      enabled: true
+
+outputPath: promptfoo/root-cause-results.json
+
+tests:
+  - description: "website_ambiguity — 'advanced GLP-1 alternative' vs 'FDA-approved'"
+    vars:
+      website_claims: "Advanced GLP-1 alternative for medical weight loss. Physician-supervised program."
+      ai_response: "FDA-approved GLP-1 weight loss injections available through their program."
+      external_sources: {}
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "website_ambiguity"
+          confidence_ge: 0.6
+      - type: llm-rubric
+        value: "source_evidence must contain at least one item citing the website claim 'advanced GLP-1 alternative'"
+
+  - description: "directory_mismatch — Google profile says 'Ozempic clinic', website disclaims"
+    vars:
+      website_claims: "Compounded semaglutide is not FDA-approved. Physician-supervised only."
+      ai_response: "Henry Meds offers Semaglutide, an FDA-approved weight loss injection."
+      external_sources:
+        google_business: "Weight loss clinic offering Ozempic and Wegovy"
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "directory_mismatch"
+          confidence_ge: 0.7
+      - type: llm-rubric
+        value: "source_evidence must cite the google_business profile text as a conflicting source"
+
+  - description: "review_language — Yelp review says 'FDA-approved shots'"
+    vars:
+      website_claims: "We offer physician-supervised semaglutide. Individual results vary."
+      ai_response: "This clinic offers FDA-approved weight loss shots."
+      external_sources:
+        reviews:
+          - source: "Yelp"
+            text: "Got FDA-approved shots here, lost 15lbs!"
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "review_language"
+          confidence_ge: 0.7
+      - type: llm-rubric
+        value: "source_evidence must cite the review text as the primary source"
+
+  - description: "competitor_comparison — blog calls it 'alternative to Wegovy'"
+    vars:
+      website_claims: "Our GLP-1 program is an alternative to Wegovy for weight management."
+      ai_response: "This clinic offers Wegovy for weight loss."
+      external_sources: {}
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "competitor_comparison"
+          confidence_ge: 0.7
+      - type: llm-rubric
+        value: "source_evidence must cite the comparison language from the website"
+
+  - description: "ai_hallucination — AI invents claim not found in any source"
+    vars:
+      website_claims: "Weight management program with lifestyle coaching. No specific medical treatments mentioned."
+      ai_response: "This clinic offers guaranteed permanent weight loss with FDA-approved injections."
+      external_sources:
+        google_business: "Wellness coaching and nutrition planning"
+        reviews: []
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "ai_hallucination"
+          confidence_ge: 0.6
+      - type: llm-rubric
+        value: "source_evidence must confirm no matching risk language found in website, directory, or review sources"
+
+  - description: "missing_qualifier — AI drops 'may' qualifier"
+    vars:
+      website_claims: "May help eligible patients support weight management as part of a comprehensive program."
+      ai_response: "Will help patients lose weight effectively."
+      external_sources: {}
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "missing_qualifier"
+          confidence_ge: 0.7
+      - type: llm-rubric
+        value: "source_evidence must show both the original qualifier 'may help' and the AI-dropped version"
+
+  - description: "old_page_indexed — archived page with superseded claims"
+    vars:
+      website_claims: "Current: Compounded semaglutide is physician-supervised and not FDA-approved."
+      ai_response: "This clinic previously offered FDA-approved Ozempic."
+      provenance_events:
+        - event: "first_seen"
+          claim_hash: "abc123"
+          text: "FDA-approved Ozempic shots available now"
+          source_url: "/archive/2025/glp1-campaign"
+          source_type: "website"
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "old_page_indexed"
+          confidence_ge: 0.7
+      - type: llm-rubric
+        value: "source_evidence must cite the archived/superseded page as the likely source"
+
+  - description: "unknown — weak evidence, returns unknown with null confidence"
+    vars:
+      website_claims: "Wellness services available. Consult for details."
+      ai_response: "This clinic offers weight loss solutions."
+      external_sources:
+        google_business: "Health and wellness center"
+        reviews:
+          - source: "Google"
+            text: "Great place, friendly staff"
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "unknown"
+          confidence: null
+          action: "Manual review recommended."
+
+  - description: "FAIL — confident classification without source evidence must fail"
+    vars:
+      website_claims: "We offer medical weight loss programs."
+      ai_response: "This clinic offers effective weight loss treatments."
+      external_sources: {}
+    assert:
+      - type: llm-rubric
+        value: |
+          If the response has root_cause != "unknown" and confidence >= 0.6,
+          source_evidence MUST NOT be empty or generic.
+          Empty or generic source_evidence with a confident classification is a FAIL.
+          The correct response for this weak-signal case is "unknown" with null confidence.
+
+  - description: "same_distortion_twice — root-cause should be stable across rescans"
+    vars:
+      website_claims: "Compounded semaglutide is not FDA-approved. Physician-supervised program."
+      ai_response: "Yes, this clinic offers Semaglutide, an FDA-approved weight loss injection."
+      external_sources:
+        google_business: "Weight loss clinic offering Ozempic"
+      scan_number: 1
+    assert:
+      - type: equals-json
+        value:
+          root_cause: "directory_mismatch"
+          confidence_ge: 0.7

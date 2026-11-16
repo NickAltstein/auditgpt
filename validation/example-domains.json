@@ -1,0 +1,22 @@
+[
+  {"domain": "henrymeds.com", "bucket": "glp1", "vertical": "glp1_clinic"},
+  {"domain": "joinmochi.com", "bucket": "glp1", "vertical": "glp1_clinic"},
+  {"domain": "joinshed.com", "bucket": "glp1", "vertical": "glp1_clinic"},
+  {"domain": "ro.co", "bucket": "glp1", "vertical": "glp1_clinic"},
+  {"domain": "foundhealth.com", "bucket": "glp1", "vertical": "glp1_clinic"},
+  {"domain": "idealimage.com", "bucket": "medspa", "vertical": "aesthetics"},
+  {"domain": "eusmiles.com", "bucket": "medspa", "vertical": "aesthetics"},
+  {"domain": "skintologyny.com", "bucket": "medspa", "vertical": "aesthetics"},
+  {"domain": "bodydetails.com", "bucket": "medspa", "vertical": "aesthetics"},
+  {"domain": "dermaquest.com", "bucket": "medspa", "vertical": "aesthetics"},
+  {"domain": "agelesstherapeutics.com", "bucket": "iv_wellness_hormone", "vertical": "wellness"},
+  {"domain": "resetiv.com", "bucket": "iv_wellness_hormone", "vertical": "wellness"},
+  {"domain": "dripbar.com", "bucket": "iv_wellness_hormone", "vertical": "wellness"},
+  {"domain": "hormonehealthcenter.com", "bucket": "iv_wellness_hormone", "vertical": "wellness"},
+  {"domain": "biote.com", "bucket": "iv_wellness_hormone", "vertical": "wellness"},
+  {"domain": "medexpress.com", "bucket": "clean_control", "vertical": "med_spa"},
+  {"domain": "minuteclinic.com", "bucket": "clean_control", "vertical": "med_spa"},
+  {"domain": "zfcp.com", "bucket": "clean_control", "vertical": "med_spa"},
+  {"domain": "riordanclinic.com", "bucket": "clean_control", "vertical": "med_spa"},
+  {"domain": "mayoclinic.org", "bucket": "clean_control", "vertical": "med_spa"}
+]

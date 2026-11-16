@@ -1,0 +1,13 @@
+{
+  "batch_date": "2026-07-03T20:48:10.657Z",
+  "batch_type": "first_scan",
+  "domains": [
+    {
+      "domain": "henrymeds.com",
+      "bucket": "glp1",
+      "vertical": "glp1_clinic",
+      "status": "failed",
+      "error": "HTTP 502: {\"scan_id\":\"585a311f-4b25-4d2a-83f1-33779131f8f7\",\"status\":\"failed\"}"
+    }
+  ]
+}

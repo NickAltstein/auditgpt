@@ -1,0 +1,37 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/legal",
+      "destination": "https://sandbox.auditgpt.ai/terms",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "https://sandbox.auditgpt.ai/terms",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "https://sandbox.auditgpt.ai/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/sandbox",
+      "destination": "https://sandbox.auditgpt.ai",
+      "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/monitoring",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/expire-claims",
+      "schedule": "0 14 * * *"
+    }
+  ],
+  "installCommand": "npm install"
+}
