@@ -26,7 +26,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node examples/test-runner.mjs",
+    "test": "node --test test/assertions.test.mjs && node examples/test-runner.mjs",
     "build": "node build.mjs",
     "prepublishOnly": "npm run build && npm test"
   },
