@@ -107,7 +107,6 @@ const server = http.createServer(async (req, res) => {
       }
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 12000);
       req.on('close', () => controller.abort());
 
       const ollamaRes = await fetch(`${OLLAMA_HOST}/v1/chat/completions`, {
@@ -116,7 +115,6 @@ const server = http.createServer(async (req, res) => {
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
 
       if (!ollamaRes.ok) {
         const errText = await ollamaRes.text();

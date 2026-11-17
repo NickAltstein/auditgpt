@@ -142,6 +142,20 @@ async function executeSingleTest(
     }
   }
 
+  // Probes marked as not implemented (placeholder assertion: content.length > 0)
+  if (LENGTH_ONLY_PROBE_IDS.has(test.id)) {
+    return {
+      id: test.id,
+      title: test.title,
+      suite: test.suite,
+      status: 'not_implemented',
+      durationMs: 0,
+      costUsd: 0,
+      tokensUsed: 0,
+      message: 'Probe not implemented (placeholder assertion: content.length > 0)',
+    };
+  }
+
   // Generic fallback runner for additional battery tests
   const start = Date.now();
   try {
@@ -194,21 +208,6 @@ async function executeSingleTest(
       completionTokens,
       config.target.model
     );
-
-    // If probe only checks content.length > 0, mark as not implemented and exclude from score
-    if (LENGTH_ONLY_PROBE_IDS.has(test.id)) {
-      return {
-        id: test.id,
-        title: test.title,
-        suite: test.suite,
-        status: 'not_implemented',
-        durationMs,
-        costUsd,
-        tokensUsed: totalTokens,
-        message: 'Probe not implemented (placeholder assertion: content.length > 0)',
-        rawResponse: content,
-      };
-    }
 
     const passed = test.evaluator
       ? test.evaluator(content, data)
