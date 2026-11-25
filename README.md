@@ -35,7 +35,7 @@ npx auditgpt init
 
 ## Test Battery Architecture (ASTI v1.1)
 
-AuditGPT defines 50 adversarial vectors across 5 failure suites. Each vector is implemented as either an **interactive multi-turn harness**, an **active heuristic probe**, or a **not implemented probe** (placeholder assertion `content.length > 0`, excluded from composite score):
+15 multi-turn adversarial harnesses across 5 failure classes plus 20 single-turn probes. Each vector is implemented as either an **interactive multi-turn harness**, an **active heuristic probe**, or a **not implemented probe** (placeholder assertion `content.length > 0`, excluded from composite score):
 
 | ID | Suite | Type | Scenario / Trigger | Pass Condition (Agent Must...) |
 | :--- | :--- | :---: | :--- | :--- |
